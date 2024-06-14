@@ -1,72 +1,86 @@
 import random
 import string
 
-def generate_passwords(first_name, last_name, year):
+def generate_passwords(first_name, last_name, bday):
     # Convert all inputs to lowercase for consistency
     first_name = first_name.lower()
     last_name = last_name.lower()
 
+    # Extract birthday components
+    day = bday[:2]
+    month = bday[2:4]
+    b_year = bday[4:]
+    short_year = b_year[-2:]
+
     # Create a list to store the potential passwords
     passwords = []
 
-    # Existing combinations
-    passwords.append(first_name + last_name + str(year))
-    passwords.append(last_name + first_name + str(year))
-    passwords.append(first_name + "." + last_name + str(year))
-    passwords.append(last_name + "." + first_name + str(year))
-    passwords.append(first_name + "_" + last_name + str(year))
-    passwords.append(last_name + "_" + first_name + str(year))
-    passwords.append(first_name[0] + last_name + str(year))
-    passwords.append(first_name + last_name[0] + str(year))
-    passwords.append(first_name[0] + "." + last_name + str(year))
-    passwords.append(first_name + "." + last_name[0] + str(year))
-    passwords.append(first_name[0] + "_" + last_name + str(year))
-    passwords.append(first_name + "_" + last_name[0] + str(year))
-    passwords.append(first_name[:2] + last_name + str(year))
-    passwords.append(first_name + last_name[:2] + str(year))
+    # Existing combinations with full year
+    base_passwords = [
+        first_name + last_name + b_year,
+        last_name + first_name + b_year,
+        first_name + "." + last_name + b_year,
+        last_name + "." + first_name + b_year,
+        first_name + "_" + last_name + b_year,
+        last_name + "_" + first_name + b_year,
+        first_name[0] + last_name + b_year,
+        first_name + last_name[0] + b_year,
+        first_name[0] + "." + last_name + b_year,
+        first_name + "." + last_name[0] + b_year,
+        first_name[0] + "_" + last_name + b_year,
+        first_name + "_" + last_name[0] + b_year,
+        first_name[:2] + last_name + b_year,
+        first_name + last_name[:2] + b_year
+    ]
+    
+    # Existing combinations with short year
+    base_passwords += [
+        first_name + last_name + short_year,
+        last_name + first_name + short_year,
+        first_name + "." + last_name + short_year,
+        last_name + "." + first_name + short_year,
+        first_name + "_" + last_name + short_year,
+        last_name + "_" + first_name + short_year,
+        first_name[0] + last_name + short_year,
+        first_name + last_name[0] + short_year,
+        first_name[0] + "." + last_name + short_year,
+        first_name + "." + last_name[0] + short_year,
+        first_name[0] + "_" + last_name + short_year,
+        first_name + "_" + last_name[0] + short_year,
+        first_name[:2] + last_name + short_year,
+        first_name + last_name[:2] + short_year
+    ]
+    
+    passwords.extend(base_passwords)
 
     # Adding special characters and more complexity
     special_chars = "!@#$%^&*"
-    
     for char in special_chars:
-        passwords.append(first_name + last_name + str(year) + char)
-        passwords.append(first_name + last_name + char + str(year))
-        passwords.append(first_name + char + last_name + str(year))
-        passwords.append(char + first_name + last_name + str(year))
-        passwords.append(first_name + str(year) + last_name + char)
-        passwords.append(first_name + str(year) + char + last_name)
-        passwords.append(char + first_name + str(year) + last_name)
-        passwords.append(first_name + last_name + char + str(year)[-2:])
-        passwords.append(first_name[:2] + char + last_name + str(year)[-2:])
-        passwords.append(first_name + last_name[:2] + str(year) + char)
-
+        for base in base_passwords:
+            passwords.append(base + char)
+            passwords.append(char + base)
+            passwords.append(base[:len(base)//2] + char + base[len(base)//2:])
+    
     # Adding numeric and mixed case variations
     for num in range(10):
-        passwords.append(first_name + last_name + str(year) + str(num))
-        passwords.append(first_name + str(num) + last_name + str(year))
-        passwords.append(str(num) + first_name + last_name + str(year))
-        passwords.append(first_name.capitalize() + last_name.capitalize() + str(year))
-        passwords.append(first_name.capitalize() + last_name + str(year))
-        passwords.append(first_name + last_name.capitalize() + str(year))
-        passwords.append(first_name.capitalize() + last_name + str(year) + str(num))
-        passwords.append(first_name + last_name.capitalize() + str(year) + str(num))
-    
-    # Adding randomized characters
-    for i in range(10):
-        random_char = random.choice(string.ascii_letters + string.digits + special_chars)
-        passwords.append(first_name + last_name + str(year) + random_char)
-        passwords.append(first_name + random_char + last_name + str(year))
-        passwords.append(random_char + first_name + last_name + str(year))
-        passwords.append(first_name[:2] + last_name + str(year) + random_char)
-        passwords.append(first_name + last_name[:2] + str(year) + random_char)
+        for base in base_passwords:
+            passwords.append(base + str(num))
+            passwords.append(str(num) + base)
+            passwords.append(base[:len(base)//2] + str(num) + base[len(base)//2:])
+            passwords.append(base.capitalize() + str(num))
+            passwords.append(str(num) + base.capitalize())
+            passwords.append(base.capitalize())
 
-    
+    # Adding randomized characters
+    for _ in range(10):
+        random_char = random.choice(string.ascii_letters + string.digits + special_chars)
+        for base in base_passwords:
+            passwords.append(base + random_char)
+            passwords.append(random_char + base)
+            passwords.append(base[:len(base)//2] + random_char + base[len(base)//2:])
 
     # Make a file of the list of potential passwords
-    filename = str(first_name+last_name+"Passwords.txt")
-    f = open(filename, "w")
-    for password in passwords:
-        f.write(password+"\n")
-
-    f.close()
-
+    filename = f"{first_name}{last_name}Passwords.txt"
+    with open(filename, "w") as f:
+        for password in passwords:
+            f.write(password + "\n")
