@@ -24,6 +24,18 @@ while True:
 
             generate_usernames(name, last_name, bday)
 
+        elif prompt[0] == "pass":
+            if "-n" in prompt:
+                name = prompt[prompt.index("-n") + 1]
+
+            if "-l" in prompt:
+                last_name = prompt[prompt.index("-l") + 1]
+
+            if "-b" in prompt:
+                bday = prompt[prompt.index("-b") + 1]
+
+            generate_passwords(name, last_name, bday)
+
         elif prompt[0] == "mtdata":
             if "-h" in prompt:
                 print("Usage instructions")
