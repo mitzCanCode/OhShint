@@ -1,10 +1,16 @@
-def generate_usernames(first_name, last_name, year):
+def generate_usernames(first_name, last_name, year, bday):
     # Convert all inputs to lowercase for consistency
     first_name = first_name.lower()
     last_name = last_name.lower()
     
     # Create a list to store the potential usernames
     usernames = []
+
+
+    # Birthday components
+    day = bday[:2]
+    month = bday[2:4]
+    b_year = bday[4:]
     
     if year != "":
         # Add different combinations of first name and last name
@@ -100,6 +106,30 @@ def generate_usernames(first_name, last_name, year):
         usernames.append(first_name[:2] + last_name)
         usernames.append(first_name[:2] + last_name)
 
+        usernames.append(first_name + last_name + day)
+        usernames.append(first_name + last_name + month)
+        usernames.append(first_name + last_name + b_year)
+        usernames.append(first_name + "." + last_name + day)
+        usernames.append(first_name + "." + last_name + month)
+        usernames.append(first_name + "." + last_name + b_year)
+        usernames.append(first_name + "_" + last_name + day)
+        usernames.append(first_name + "_" + last_name + month)
+        usernames.append(first_name + "_" + last_name + b_year)
+    
+        usernames.append(first_name[0] + last_name + day)
+        usernames.append(first_name[0] + last_name + month)
+        usernames.append(first_name[0] + last_name + b_year)
+        usernames.append(first_name + last_name[0] + day)
+        usernames.append(first_name + last_name[0] + month)
+        usernames.append(first_name + last_name[0] + b_year)
+    
+        usernames.append(first_name[:2] + last_name + day)
+        usernames.append(first_name[:2] + last_name + month)
+        usernames.append(first_name[:2] + last_name + b_year)
+        usernames.append(first_name + last_name[:2] + day)
+        usernames.append(first_name + last_name[:2] + month)
+        usernames.append(first_name + last_name[:2] + b_year)
+
         usernames.append(first_name + last_name + "123")
         usernames.append(first_name + "." + last_name + "123")
         usernames.append(first_name + "_" + last_name + "123")
@@ -107,6 +137,8 @@ def generate_usernames(first_name, last_name, year):
         usernames.append(first_name + last_name[0] + "123")
         usernames.append(first_name[:2] + last_name + "123")
         usernames.append(first_name + last_name[:2] + "123")
+
+
 
     # Make a file with the usernames list
     filename = str(first_name+last_name+"Usernames.txt")
