@@ -1,0 +1,52 @@
+import os
+from PIL import Image, ExifTags
+import piexif
+
+def metadata_extractor(file_path: str, check = False) -> dict:
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"The file {file_path} does not exist.")
+    
+    img = Image.open(file_path)
+    exif = img._getexif()
+    
+    if not exif and not check:
+        print("No EXIF metadata found.")
+        return {}
+    
+    exif_dict = {ExifTags.TAGS.get(k, k): v for k, v in exif.items()}
+    return exif_dict
+
+def clear_metadata(file_path: str, output_path: str):
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"The file {file_path} does not exist.")
+    
+    img = Image.open(file_path)
+    exif_data = img.info.get('exif')
+    
+    if not exif_data:
+        print("No EXIF metadata found to clear.")
+        img.save(output_path)
+        return
+    
+    exif_dict = piexif.load(exif_data)
+
+    # Remove all metadata tags
+    for ifd in ('0th', 'Exif', 'GPS', '1st', 'Interop'):
+        exif_dict[ifd].clear()
+
+    # Save the image with the new EXIF data
+    exif_bytes = piexif.dump(exif_dict)
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    img.save(output_path, "jpeg", exif=exif_bytes)
+
+
+if __name__ == "__main__":
+    file_path = "/Users/mitz/Desktop/IMG_3794.jpeg"
+    print("Original metadata:")
+    metadata_extractor(file_path=file_path)
+    
+    output_path = "/Users/mitz/Desktop/IMG_3794_modified.jpeg"
+    clear_metadata(file_path, output_path)
+    
+    print("Modified metadata:")
+    metadata_extractor(file_path=output_path)
