@@ -1,9 +1,8 @@
 from passwords import generate_passwords
 from usernames import generate_usernames
-from image_metadata import metadata_extractor, clear_metadata
+# from image_metadata import metadata_extractor, clear_metadata
 import os
 import sys
-
 
 mtdata_help_message = """
 mtdata - Metadata extraction and clearing tool
@@ -25,7 +24,7 @@ Examples:
 """
 
 usr_help_message = """
-Username finder - Generates potential usernames
+Username finder - Generates potential usernames and add them to a file
 
 Usage:
     usr [options]
@@ -35,11 +34,12 @@ Options:
     -n             Name that will be used to generate usernames
     -l             Lastname that will be used to generate usernames
     -b             Birthday that will be used to generate usernames (format: DDMMYYYY)
+    -p             Print all the usernames
 
 Examples:
-    usr -n Name -l Surname -b 13052000
+    usr -n Name -l Surname -b 13052000 -p
     usr -l Surname -b 15031969
-    usr -N Name -l Surname
+    usr -N Name -l Surname -p
 
 """
 pass_help_message = """
@@ -53,15 +53,17 @@ Options:
     -n             Name that will be used to generate passwords
     -l             Lastname that will be used to generate passwords
     -b             Birthday that will be used to generate passwords (format: DDMMYYYY)
+    -p             Print all the passwords
 
 Examples:
     pass -n Name -l Surname -b 13052000
-    pass -l Surname -b 15031969
+    pass -l Surname -b 15031969 -p
     pass -N Name -l Surname
 """
 
 try:
     while True:
+
             prompt = input("OhShint! > ")
             prompt = prompt.split()
             
@@ -72,6 +74,9 @@ try:
                 print("Help message here")
                 continue
             elif prompt[0] == "usr":
+                prnt = False
+                usernames = {}
+
                 name, last_name, bday = None, None, None
                 
                 if prompt == "usr -h":
@@ -87,10 +92,18 @@ try:
                 if "-b" in prompt:
                     bday = prompt[prompt.index("-b") + 1]
 
+                if "-p" in prompt:
+                    prnt = True
 
-                generate_usernames(name, last_name, bday)
+
+                temp = generate_usernames(name, last_name, bday, prnt)
+
+                usernames = {index: username for index, username in enumerate(temp)}
+
 
             elif prompt[0] == "pass":
+
+                prnt = False
 
                 if prompt == "pass -h":
                     print(pass_help_message)
@@ -105,7 +118,13 @@ try:
                 if "-b" in prompt:
                     bday = prompt[prompt.index("-b") + 1]
 
-                generate_passwords(name, last_name, bday)
+                if "-p" in prompt:
+                    prnt = True
+
+                temp = generate_passwords(name, last_name, bday, prnt)
+
+                passwords = {index: password for index, password in enumerate(temp)}
+                
 
             elif prompt[0] == "mtdata":
                 if "-h" in prompt:
