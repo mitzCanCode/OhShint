@@ -1,11 +1,10 @@
 import random
 import string
 
-def generate_passwords(first_name, last_name, bday):
+def generate_passwords(first_name, last_name, bday, prnt):
     # Convert all inputs to lowercase for consistency
     first_name = first_name.lower()
     last_name = last_name.lower()
-
     # Extract birthday components
     day = bday[:2]
     month = bday[2:4]
@@ -82,5 +81,9 @@ def generate_passwords(first_name, last_name, bday):
     # Make a file of the list of potential passwords
     filename = f"{first_name}{last_name}Passwords.txt"
     with open(filename, "w") as f:
-        for password in passwords:
-            f.write(password + "\n")
+        for i in range(len(passwords)):
+            if prnt:
+                print(str(i)+". "+ passwords[i])
+            f.write(str(i)+". "+ passwords[i] + "\n")
+
+    return passwords
