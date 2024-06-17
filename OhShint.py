@@ -1,6 +1,6 @@
 from passwords import generate_passwords
 from usernames import generate_usernames
-# from image_metadata import metadata_extractor, clear_metadata
+from image_metadata import metadata_extractor, clear_metadata
 import os
 import sys
 
