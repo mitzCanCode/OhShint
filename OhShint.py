@@ -24,6 +24,25 @@ Examples:
   mtdata image.jpg  -c -o 		    Clear metadata from image.jpg and save the result as new_image.jpg
 """
 
+usr_help_message = """
+Username finder - Generates potential usernames
+
+Usage:
+    usr [options]
+
+Options:
+    -h             Show this help message
+    -n             Name that will be used to generate usernames
+    -l             Lastname that will be used to generate usernames
+    -b             Birthday that will be used to generate usernames (format: DDMMYYYY)
+
+Examples:
+    usr -n Name -l Surname -b 13052000
+    usr -l Surname -b 15031969
+    usr -N Name -l Surname
+
+"""
+
 
 try:
     while True:
@@ -35,9 +54,14 @@ try:
                 sys.exit()
             elif prompt[0] == "help":
                 print("Help message here")
+                continue
             elif prompt[0] == "usr":
                 name, last_name, bday = None, None, None
                 
+                if prompt == "usr -h":
+                    print(usr_help_message)
+                    continue
+
                 if "-n" in prompt:
                     name = prompt[prompt.index("-n") + 1]
 
@@ -46,6 +70,7 @@ try:
 
                 if "-b" in prompt:
                     bday = prompt[prompt.index("-b") + 1]
+
 
                 generate_usernames(name, last_name, bday)
 
