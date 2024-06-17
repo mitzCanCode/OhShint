@@ -42,7 +42,23 @@ Examples:
     usr -N Name -l Surname
 
 """
+pass_help_message = """
+Password finder - Generates potential usernames
 
+Usage:
+    pass [options]
+
+Options:
+    -h             Show this help message
+    -n             Name that will be used to generate passwords
+    -l             Lastname that will be used to generate passwords
+    -b             Birthday that will be used to generate passwords (format: DDMMYYYY)
+
+Examples:
+    pass -n Name -l Surname -b 13052000
+    pass -l Surname -b 15031969
+    pass -N Name -l Surname
+"""
 
 try:
     while True:
@@ -75,6 +91,11 @@ try:
                 generate_usernames(name, last_name, bday)
 
             elif prompt[0] == "pass":
+
+                if prompt == "pass -h":
+                    print(pass_help_message)
+                    continue
+
                 if "-n" in prompt:
                     name = prompt[prompt.index("-n") + 1]
 
