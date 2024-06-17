@@ -1,6 +1,7 @@
 from passwords import generate_passwords
 from usernames import generate_usernames
 from image_metadata import metadata_extractor, clear_metadata
+from lookup import search
 import os
 import sys
 
@@ -43,7 +44,7 @@ Examples:
 
 """
 pass_help_message = """
-Password finder - Generates potential usernames
+Password finder - Generates potential passwords
 
 Usage:
     pass [options]
@@ -59,6 +60,12 @@ Examples:
     pass -n Name -l Surname -b 13052000
     pass -l Surname -b 15031969 -p
     pass -N Name -l Surname
+"""
+
+lookup_help_message = """
+"""
+
+show_help_message = """
 """
 
 try:
@@ -79,7 +86,7 @@ try:
 
                 name, last_name, bday = None, None, None
                 
-                if prompt == "usr -h":
+                if "-h" in prompt:
                     print(usr_help_message)
                     continue
 
@@ -99,13 +106,14 @@ try:
                 temp = generate_usernames(name, last_name, bday, prnt)
 
                 usernames = {index: username for index, username in enumerate(temp)}
+                print(usernames)
 
 
             elif prompt[0] == "pass":
 
                 prnt = False
 
-                if prompt == "pass -h":
+                if "-h" in prompt:
                     print(pass_help_message)
                     continue
 
@@ -125,7 +133,80 @@ try:
 
                 passwords = {index: password for index, password in enumerate(temp)}
                 
-
+            
+            elif prompt[0] == "show":
+                if "-h" in prompt:
+                    print(show_help_message)
+                    continue
+                if "usernames" in prompt:
+                    if usernames:
+                        for k, v in usernames.items():
+                            print(f"{k}: {v}")
+                        continue
+                    else:
+                        print("Please generate a username list first.")
+                        continue
+                elif "lookup" in prompt:
+                    if lookup_results:
+                        for k, v in lookup_results.items():
+                            print(f"{k}: {v}")
+                        continue
+                    else:
+                        print("Please complete a lookup first.")
+                        continue
+            
+            elif prompt[0] == "lookup":
+                if "-h" in prompt:
+                    print(lookup_help_message)
+                    continue
+                
+                if "-i" in prompt:
+                    try:
+                        id = prompt[prompt.index("-i") + 1]
+                    except IndexError:
+                        print("Please specify an ID")
+                        continue
+                    except Exception as e:
+                        print(e)
+                    if not usernames:
+                        print("Generate a usernames list to start using IDs")
+                        continue
+                    
+                    try: 
+                        id = int(id)
+                    except:
+                        print("ID must be number")
+                        continue
+                    
+                    try: 
+                        username = usernames[id]
+                        print(username)
+                    except:
+                        print("Please select an ID in the list of usernames generated")
+                        continue
+                    
+                    try:
+                        lookup_results = search(username)
+                    except Exception as e:
+                        print(f"Error: {e}")
+                        continue
+                else:
+                    try:
+                        username = prompt[1]
+                    except IndexError:
+                        print("Please specify a username")
+                        continue
+                    except Exception as e:
+                        print(e)
+                        continue
+                    
+                    try:
+                        lookup_results = search(username)
+                    except Exception as e:
+                        print(f"Error: {e}")
+                        continue
+            
+            
             elif prompt[0] == "mtdata":
                 if "-h" in prompt:
                     print(mtdata_help_message)
