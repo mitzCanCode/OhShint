@@ -1,5 +1,6 @@
 import random
 import string
+import os
 
 def generate_passwords(first_name: str = "", last_name: str = "", bday: str = "",file_name: str = "", prnt = bool, save = bool) -> list:
     # Convert all inputs to lowercase for consistency
@@ -89,6 +90,8 @@ def generate_passwords(first_name: str = "", last_name: str = "", bday: str = ""
             if save:
                 f.write(str(i)+". "+ passwords[i] + "\n")
         if save:
+            file_path = os.path.abspath(file_name)
+            print("File was saved to: " + file_path)
             f.close()
 
     return passwords
