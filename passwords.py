@@ -1,7 +1,7 @@
 import random
 import string
 
-def generate_passwords(first_name: str = "", last_name: str = "", bday: str = "", prnt = bool, save = bool) -> list:
+def generate_passwords(first_name: str = "", last_name: str = "", bday: str = "",file_name: str = "", prnt = bool, save = bool) -> list:
     # Convert all inputs to lowercase for consistency
     first_name = first_name.lower()
     last_name = last_name.lower()
@@ -79,8 +79,9 @@ def generate_passwords(first_name: str = "", last_name: str = "", bday: str = ""
             passwords.append(base[:len(base)//2] + random_char + base[len(base)//2:])
 
     # Make a file of the list of potential passwords
-    filename = f"{first_name}{last_name}Passwords.txt"
-    with open(filename, "w") as f:
+    if file_name == "":
+        file_name = f"{first_name}{last_name}Passwords.txt"
+    with open(file_name, "w") as f:
         for i in range(len(passwords)):
             if prnt:
                 print(str(i)+". "+ passwords[i])
