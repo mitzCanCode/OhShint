@@ -119,6 +119,8 @@ try:
                 
                 if "-fn" in prompt:
                     file_name = prompt[prompt.index("-fn") + 1]
+                else:
+                    file_name = ""
 
                 if "-b" in prompt:
                     bday = prompt[prompt.index("-b") + 1]
@@ -153,6 +155,8 @@ try:
                 
                 if "-fn" in prompt:
                     file_name = prompt[prompt.index("-fn") + 1]
+                else:
+                    file_name = ""
 
                 if "-b" in prompt:
                     bday = prompt[prompt.index("-b") + 1]
@@ -173,7 +177,7 @@ try:
                     print(show_help_message)
                     continue
                 if "usernames" in prompt:
-                    if usernames:
+                    if "usernames" in prompt:
                         for k, v in usernames.items():
                             print(f"{k}: {v}")
                         continue
