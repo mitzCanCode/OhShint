@@ -1,7 +1,7 @@
 import random
 import string
 
-def generate_passwords(first_name, last_name, bday, prnt):
+def generate_passwords(first_name: str = "", last_name: str = "", bday: str = "", prnt = bool, save = bool) -> list:
     # Convert all inputs to lowercase for consistency
     first_name = first_name.lower()
     last_name = last_name.lower()
@@ -84,6 +84,7 @@ def generate_passwords(first_name, last_name, bday, prnt):
         for i in range(len(passwords)):
             if prnt:
                 print(str(i)+". "+ passwords[i])
-            f.write(str(i)+". "+ passwords[i] + "\n")
+            if save:
+                f.write(str(i)+". "+ passwords[i] + "\n")
 
     return passwords
