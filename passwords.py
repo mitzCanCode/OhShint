@@ -78,14 +78,17 @@ def generate_passwords(first_name: str = "", last_name: str = "", bday: str = ""
             passwords.append(random_char + base)
             passwords.append(base[:len(base)//2] + random_char + base[len(base)//2:])
 
-    # Make a file of the list of potential passwords
-    if file_name == "":
-        file_name = f"{first_name}{last_name}Passwords.txt"
-    with open(file_name, "w") as f:
+        if file_name == "":
+            file_name = str(first_name + last_name + "Passwords.txt")
+        if save:
+            f = open(file_name, "w")
+
         for i in range(len(passwords)):
             if prnt:
                 print(str(i)+". "+ passwords[i])
             if save:
                 f.write(str(i)+". "+ passwords[i] + "\n")
+        if save:
+            f.close()
 
     return passwords
