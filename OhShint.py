@@ -25,7 +25,7 @@ Examples:
 """
 
 usr_help_message = """
-Username finder - Generates potential usernames and add them to a file
+Username finder - Generates potential usernames
 
 Usage:
     usr [options]
@@ -36,6 +36,7 @@ Options:
     -l             Lastname that will be used to generate usernames
     -b             Birthday that will be used to generate usernames (format: DDMMYYYY)
     -p             Print all the usernames
+    -s             Save all the usernames on a txt file
 
 Examples:
     usr -n Name -l Surname -b 13052000 -p
@@ -55,6 +56,7 @@ Options:
     -l             Lastname that will be used to generate passwords
     -b             Birthday that will be used to generate passwords (format: DDMMYYYY)
     -p             Print all the passwords
+    -s             Save all the passwords in a txt file
 
 Examples:
     pass -n Name -l Surname -b 13052000
@@ -98,10 +100,9 @@ try:
                 print("Help message here")
                 continue
             elif prompt[0] == "usr":
-                prnt = False
-                usernames = {}
 
-                name, last_name, bday = None, None, None
+
+                name, last_name, bday, prnt, save = None, None, None, False, False
                 
                 if "-h" in prompt:
                     print(usr_help_message)
@@ -119,8 +120,10 @@ try:
                 if "-p" in prompt:
                     prnt = True
 
+                if "-s" in prompt:
+                    save = True
 
-                temp = generate_usernames(name, last_name, bday, prnt)
+                temp = generate_usernames(name, last_name, bday, prnt, save)
 
                 usernames = {index: username for index, username in enumerate(temp)}
                 print(usernames)
@@ -129,6 +132,9 @@ try:
             elif prompt[0] == "pass":
 
                 prnt = False
+                save = False
+                name, last_name, bday, prnt, save = None, None, None, False, False
+
 
                 if "-h" in prompt:
                     print(pass_help_message)
@@ -146,7 +152,10 @@ try:
                 if "-p" in prompt:
                     prnt = True
 
-                temp = generate_passwords(name, last_name, bday, prnt)
+                if "-s" in prompt:
+                    save = True
+
+                temp = generate_passwords(name, last_name, bday, prnt, save)
 
                 passwords = {index: password for index, password in enumerate(temp)}
                 
