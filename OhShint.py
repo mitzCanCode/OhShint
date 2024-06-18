@@ -63,6 +63,23 @@ Examples:
 """
 
 lookup_help_message = """
+Lookup - Searches for user information based on a username
+
+Usage:
+    lookup <username> [options]
+
+Options:
+    -h             Show this help message
+    -i <ID>        Use the username associated with the given ID from the generated usernames list
+
+Examples:
+    lookup username
+    lookup -i 2
+
+Notes:
+    To use the -i option, you must first generate a list of usernames using the usr command.
+    The command searches for information related to the specified username and displays the results.
+
 """
 
 show_help_message = """
