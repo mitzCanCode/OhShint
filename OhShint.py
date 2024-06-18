@@ -1,6 +1,6 @@
 from passwords import generate_passwords
 from usernames import generate_usernames
-from image_metadata import metadata_extractor, clear_metadata
+# from image_metadata import metadata_extractor, clear_metadata
 from lookup import search
 import os
 import sys
@@ -131,7 +131,6 @@ try:
                 temp = generate_usernames(name, last_name, bday, file_name, prnt, save)
 
                 usernames = {index: username for index, username in enumerate(temp)}
-                print(usernames)
 
 
             elif prompt[0] == "pass":
