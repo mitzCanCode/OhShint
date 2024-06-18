@@ -1,3 +1,5 @@
+import os
+
 def generate_usernames(first_name: str = "", last_name: str = "", bday: str = "",file_name: str = "", prnt = bool, save = bool) -> list:
     # Convert all inputs to lowercase for consistency
     first_name = first_name.lower()
@@ -202,6 +204,8 @@ def generate_usernames(first_name: str = "", last_name: str = "", bday: str = ""
             if save:
                 f.write(str(i)+". "+ usernames[i] + "\n")
         if save:
+            file_path = os.path.abspath(file_name)
+            print("File was saved to: " + file_path)
             f.close()
 
     return usernames
