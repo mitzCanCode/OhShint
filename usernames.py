@@ -1,4 +1,4 @@
-def generate_usernames(first_name: str = "", last_name: str = "", bday: str = "", prnt = bool, save = bool) -> list:
+def generate_usernames(first_name: str = "", last_name: str = "", bday: str = "",file_name: str = "", prnt = bool, save = bool) -> list:
     # Convert all inputs to lowercase for consistency
     first_name = first_name.lower()
     last_name = last_name.lower()
@@ -193,8 +193,9 @@ def generate_usernames(first_name: str = "", last_name: str = "", bday: str = ""
 
     # Make a file with the usernames list if both first_name and last_name are provided
     if first_name and last_name:
-        filename = str(first_name + last_name + "Usernames.txt")
-        with open(filename, "w") as f:
+        if file_name == "":
+            file_name = str(first_name + last_name + "Usernames.txt")
+        with open(file_name, "w") as f:
             for i in range(len(usernames)):
                 if prnt:
                     print(str(i)+". "+ usernames[i])
