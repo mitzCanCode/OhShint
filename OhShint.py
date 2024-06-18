@@ -37,11 +37,12 @@ Options:
     -b             Birthday that will be used to generate usernames (format: DDMMYYYY)
     -p             Print all the usernames
     -s             Save all the usernames on a txt file
+    -fn            Set a custom file name
 
 Examples:
-    usr -n Name -l Surname -b 13052000 -p
+    usr -n Name -l Surname -b 13052000 -p -s
     usr -l Surname -b 15031969
-    usr -N Name -l Surname -p
+    usr -N Name -l Surname -p -s -fn fileName
 
 """
 pass_help_message = """
@@ -57,11 +58,12 @@ Options:
     -b             Birthday that will be used to generate passwords (format: DDMMYYYY)
     -p             Print all the passwords
     -s             Save all the passwords in a txt file
+    -fn            Set a custom file name
 
 Examples:
-    pass -n Name -l Surname -b 13052000
-    pass -l Surname -b 15031969 -p
-    pass -N Name -l Surname
+    pass -n Name -l Surname -b 13052000 -p -s
+    pass -l Surname -b 15031969
+    pass -N Name -l Surname -p -s -fn fileName
 """
 
 lookup_help_message = """
@@ -113,6 +115,9 @@ try:
 
                 if "-l" in prompt:
                     last_name = prompt[prompt.index("-l") + 1]
+                
+                if "-fn" in prompt:
+                    file_name = prompt[prompt.index("-fn") + 1]
 
                 if "-b" in prompt:
                     bday = prompt[prompt.index("-b") + 1]
@@ -123,7 +128,7 @@ try:
                 if "-s" in prompt:
                     save = True
 
-                temp = generate_usernames(name, last_name, bday, prnt, save)
+                temp = generate_usernames(name, last_name, bday, file_name, prnt, save)
 
                 usernames = {index: username for index, username in enumerate(temp)}
                 print(usernames)
@@ -133,7 +138,7 @@ try:
 
                 prnt = False
                 save = False
-                name, last_name, bday, prnt, save = None, None, None, False, False
+                name, last_name, bday, file_name, prnt, save = None, None, None, False, False
 
 
                 if "-h" in prompt:
@@ -145,6 +150,9 @@ try:
 
                 if "-l" in prompt:
                     last_name = prompt[prompt.index("-l") + 1]
+                
+                if "-fn" in prompt:
+                    file_name = prompt[prompt.index("-fn") + 1]
 
                 if "-b" in prompt:
                     bday = prompt[prompt.index("-b") + 1]
@@ -155,7 +163,7 @@ try:
                 if "-s" in prompt:
                     save = True
 
-                temp = generate_passwords(name, last_name, bday, prnt, save)
+                temp = generate_passwords(name, last_name, bday, file_name, prnt, save)
 
                 passwords = {index: password for index, password in enumerate(temp)}
                 
