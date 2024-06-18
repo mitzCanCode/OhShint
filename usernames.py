@@ -195,6 +195,8 @@ def generate_usernames(first_name: str = "", last_name: str = "", bday: str = ""
 
         if file_name == "":
             file_name = str(first_name + last_name + "Usernames.txt")
+        else:
+            file_name = file_name+".txt"
         if save:
             f = open(file_name, "w")
 
