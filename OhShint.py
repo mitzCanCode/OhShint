@@ -101,6 +101,7 @@ try:
             elif prompt[0] == "help":
                 print("Help message here")
                 continue
+
             elif prompt[0] == "usr":
 
 
@@ -137,7 +138,7 @@ try:
 
                 prnt = False
                 save = False
-                name, last_name, bday, file_name, prnt, save = None, None, None, False, False
+                name, last_name, bday, file_name, prnt, save = None, None, None, None, False, False
 
 
                 if "-h" in prompt:
