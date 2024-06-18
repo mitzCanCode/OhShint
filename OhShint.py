@@ -1,211 +1,285 @@
+from passwords import generate_passwords
+from usernames import generate_usernames
+from image_metadata import metadata_extractor, clear_metadata
+from lookup import search
 import os
+import sys
 
-def generate_usernames(first_name: str = "", last_name: str = "", bday: str = "",file_name: str = "", prnt = bool, save = bool) -> list:
-    # Convert all inputs to lowercase for consistency
-    first_name = first_name.lower()
-    last_name = last_name.lower()
-    
-    # Create a list to store the potential usernames
-    usernames = []
+mtdata_help_message = """
+mtdata - Metadata extraction and clearing tool
 
-    # Birthday components
-    day = bday[:2] if bday else ""
-    month = bday[2:4] if bday else ""
-    b_year = bday[4:] if bday else ""
+Usage:
+  mtdata <file_path> [options] 
 
-    if not bday:
-        # Add different combinations of first name and last name
-        if first_name:
-            usernames.append(first_name)
-        if last_name:
-            usernames.append(last_name)
-        if first_name and last_name:
-            usernames.append(first_name + last_name)
-            usernames.append(last_name + first_name)
-            usernames.append(first_name + "." + last_name)
-            usernames.append(last_name + "." + first_name)
-            usernames.append(first_name + "_" + last_name)
-            usernames.append(last_name + "_" + first_name)
+Options:
+  -h                Show this help message
+  -c                Clear metadata from the specified file
+  -o                Overwrite the original images metadata if clearing its metadata instead of creating a new image
+  -mn               Display MakerNote metadata (hidden by default)
 
-            usernames.append(first_name[0] + last_name)
-            usernames.append(first_name + last_name[0])
-            usernames.append(first_name[0] + "." + last_name)
-            usernames.append(first_name + "." + last_name[0])
-            usernames.append(first_name[0] + "_" + last_name)
-            usernames.append(first_name + "_" + last_name[0])
+Examples:
+  mtdata image.jpg                  Extract metadata from image.jpg and display it
+  mtdata image.jpg -mn              Extract metadata from image.jpg, including MakerNote data, and display it
+  mtdata image.jpg -c               Clear metadata from image.jpg and save the result as modified_image.jpg
+  mtdata image.jpg  -c -o 		    Clear metadata from image.jpg and save the result as new_image.jpg
+"""
 
-            usernames.append(last_name + last_name[-1])
-            usernames.append(first_name + first_name[-1])
-            usernames.append(first_name + last_name + last_name[-1])
-            usernames.append(first_name[0] + last_name)
-            usernames.append(first_name + first_name[-1] + last_name[0])
-            usernames.append(first_name[0] + "." + last_name + last_name[-1])
-            usernames.append(first_name + first_name[-1] + "." + last_name[0])
-            usernames.append(first_name[0] + "_" + last_name)
-            usernames.append(first_name + "_" + last_name[0])
-            usernames.append(first_name[:2] + last_name)
-            usernames.append(first_name[:2] + last_name)
+usr_help_message = """
+Username finder - Generates potential usernames
 
-            usernames.append(first_name + last_name + "123")
-            usernames.append(first_name + "." + last_name + "123")
-            usernames.append(first_name + "_" + last_name + "123")
-            usernames.append(first_name[0] + last_name + "123")
-            usernames.append(first_name + last_name[0] + "123")
-            usernames.append(first_name[:2] + last_name + "123")
-            usernames.append(first_name + last_name[:2] + "123")
+Usage:
+    usr [options]
 
-    else:
-        if first_name:
-            usernames.append(first_name)
-        if last_name:
-            usernames.append(last_name)
-        if first_name and last_name:
-            usernames.append(first_name + last_name)
-            usernames.append(last_name + first_name)
-            usernames.append(first_name + "." + last_name)
-            usernames.append(last_name + "." + first_name)
-            usernames.append(first_name + "_" + last_name)
-            usernames.append(last_name + "_" + first_name)
+Options:
+    -h             Show this help message
+    -n             Name that will be used to generate usernames
+    -l             Lastname that will be used to generate usernames
+    -b             Birthday that will be used to generate usernames (format: DDMMYYYY)
+    -p             Print all the usernames
+    -s             Save all the usernames on a txt file
+    -fn            Set a custom file name
 
-            usernames.append(first_name[0] + last_name)
-            usernames.append(first_name + last_name[0])
-            usernames.append(first_name[0] + "." + last_name)
-            usernames.append(first_name + "." + last_name[0])
-            usernames.append(first_name[0] + "_" + last_name)
-            usernames.append(first_name + "_" + last_name[0])
+Examples:
+    usr -n Name -l Surname -b 13052000 -p -s
+    usr -l Surname -b 15031969
+    usr -N Name -l Surname -p -s -fn fileName
 
-            usernames.append(last_name + last_name[-1])
-            usernames.append(first_name + first_name[-1])
-            usernames.append(first_name + last_name + last_name[-1])
-            usernames.append(first_name[0] + last_name)
-            usernames.append(first_name + first_name[-1] + last_name[0])
-            usernames.append(first_name[0] + "." + last_name + last_name[-1])
-            usernames.append(first_name + first_name[-1] + "." + last_name[0])
-            usernames.append(first_name[0] + "_" + last_name)
-            usernames.append(first_name + "_" + last_name[0])
-            usernames.append(first_name[:2] + last_name)
-            usernames.append(first_name[:2] + last_name)
+"""
+pass_help_message = """
+Password finder - Generates potential passwords
 
-            usernames.append(first_name + last_name + day)
-            usernames.append(first_name + last_name + month)
-            usernames.append(first_name + last_name + b_year)
-            usernames.append(first_name + "." + last_name + day)
-            usernames.append(first_name + "." + last_name + month)
-            usernames.append(first_name + "." + last_name + b_year)
-            usernames.append(first_name + "_" + last_name + day)
-            usernames.append(first_name + "_" + last_name + month)
-            usernames.append(first_name + "_" + last_name + b_year)
+Usage:
+    pass [options]
 
-            usernames.append(first_name[0] + last_name + day)
-            usernames.append(first_name[0] + last_name + month)
-            usernames.append(first_name[0] + last_name + b_year)
-            usernames.append(first_name + last_name[0] + day)
-            usernames.append(first_name + last_name[0] + month)
-            usernames.append(first_name + last_name[0] + b_year)
+Options:
+    -h             Show this help message
+    -n             Name that will be used to generate passwords
+    -l             Lastname that will be used to generate passwords
+    -b             Birthday that will be used to generate passwords (format: DDMMYYYY)
+    -p             Print all the passwords
+    -s             Save all the passwords in a txt file
+    -fn            Set a custom file name
 
-            usernames.append(first_name[:2] + last_name + day)
-            usernames.append(first_name[:2] + last_name + month)
-            usernames.append(first_name[:2] + last_name + b_year)
-            usernames.append(first_name + last_name[:2] + day)
-            usernames.append(first_name + last_name[:2] + month)
-            usernames.append(first_name + last_name[:2] + b_year)
+Examples:
+    pass -n Name -l Surname -b 13052000 -p -s
+    pass -l Surname -b 15031969
+    pass -N Name -l Surname -p -s -fn fileName
+"""
 
-            usernames.append(first_name + last_name + str(b_year)[-2:])
-            usernames.append(first_name + "." + last_name + str(b_year)[-2:])
-            usernames.append(first_name + "_" + last_name + str(b_year)[-2:])
-            usernames.append(first_name[0] + last_name + str(b_year)[-2:])
-            usernames.append(first_name + last_name[0] + str(b_year)[-2:])
-            usernames.append(first_name[:2] + last_name + str(b_year)[-2:])
-            usernames.append(first_name + last_name[:2] + str(b_year)[-2:])
-            usernames.append(first_name[:2] + last_name + "_" + str(b_year)[-2:])
-            usernames.append(first_name + "_" + last_name[:2] + str(b_year)[-2:])
-            usernames.append(first_name[0] + last_name[:2] + str(b_year)[-2:])
-            usernames.append(first_name[:2] + last_name[0] + str(b_year)[-2:])
+lookup_help_message = """
+Lookup - Searches for user information based on a username
 
-            usernames.append(first_name + last_name + "123")
-            usernames.append(first_name + "." + last_name + "123")
-            usernames.append(first_name + "_" + last_name + "123")
-            usernames.append(first_name[0] + last_name + "123")
-            usernames.append(first_name + last_name[0] + "123")
-            usernames.append(first_name[:2] + last_name + "123")
-            usernames.append(first_name + last_name[:2] + "123")
+Usage:
+    lookup <username> [options]
 
-        # If only first_name or last_name is provided along with birthday
-        if first_name and not last_name:
-            usernames.append(first_name + day)
-            usernames.append(first_name + month)
-            usernames.append(first_name + b_year)
-            usernames.append(first_name + "." + day)
-            usernames.append(first_name + "." + month)
-            usernames.append(first_name + "." + b_year)
-            usernames.append(first_name + "_" + day)
-            usernames.append(first_name + "_" + month)
-            usernames.append(first_name + "_" + b_year)
+Options:
+    -h             Show this help message
+    -i <ID>        Use the username associated with the given ID from the generated usernames list
 
-            usernames.append(first_name[0] + day)
-            usernames.append(first_name[0] + month)
-            usernames.append(first_name[0] + b_year)
+Examples:
+    lookup username
+    lookup -i 2
 
-            usernames.append(first_name[:2] + day)
-            usernames.append(first_name[:2] + month)
-            usernames.append(first_name[:2] + b_year)
+Notes:
+    To use the -i option, you must first generate a list of usernames using the usr command.
+    The command searches for information related to the specified username and displays the results.
 
-            usernames.append(first_name + str(b_year)[-2:])
-            usernames.append(first_name + "." + str(b_year)[-2:])
-            usernames.append(first_name + "_" + str(b_year)[-2:])
-            usernames.append(first_name[0] + str(b_year)[-2:])
-            usernames.append(first_name[:2] + str(b_year)[-2:])
+"""
 
-            usernames.append(first_name + "123")
-            usernames.append(first_name + "." + "123")
-            usernames.append(first_name + "_" + "123")
-            usernames.append(first_name[0] + "123")
-            usernames.append(first_name[:2] + "123")
+show_help_message = """
+"""
 
-        if last_name and not first_name:
-            usernames.append(last_name + day)
-            usernames.append(last_name + month)
-            usernames.append(last_name + b_year)
-            usernames.append(last_name + "." + day)
-            usernames.append(last_name + "." + month)
-            usernames.append(last_name + "." + b_year)
-            usernames.append(last_name + "_" + day)
-            usernames.append(last_name + "_" + month)
-            usernames.append(last_name + "_" + b_year)
+try:
+    while True:
 
-            usernames.append(last_name[0] + day)
-            usernames.append(last_name[0] + month)
-            usernames.append(last_name[0] + b_year)
+            prompt = input("OhShint! > ")
+            prompt = prompt.split()
+            
+            if prompt[0] == "exit":
+                print("Quitting...")
+                sys.exit()
+            elif prompt[0] == "help":
+                print("Help message here")
+                continue
+            elif prompt[0] == "usr":
 
-            usernames.append(last_name[:2] + day)
-            usernames.append(last_name[:2] + month)
-            usernames.append(last_name[:2] + b_year)
 
-            usernames.append(last_name + str(b_year)[-2:])
-            usernames.append(last_name + "." + str(b_year)[-2:])
-            usernames.append(last_name + "_" + str(b_year)[-2:])
-            usernames.append(last_name[0] + str(b_year)[-2:])
-            usernames.append(last_name[:2] + str(b_year)[-2:])
+                name, last_name, bday, prnt, save = None, None, None, False, False
+                
+                if "-h" in prompt:
+                    print(usr_help_message)
+                    continue
 
-            usernames.append(last_name + "123")
-            usernames.append(last_name + "." + "123")
-            usernames.append(last_name + "_" + "123")
-            usernames.append(last_name[0] + "123")
-            usernames.append(last_name[:2] + "123")
+                if "-n" in prompt:
+                    name = prompt[prompt.index("-n") + 1]
 
-        if file_name == "":
-            file_name = str(first_name + last_name + "Usernames.txt")
-        if save:
-            f = open(file_name, "w")
+                if "-l" in prompt:
+                    last_name = prompt[prompt.index("-l") + 1]
+                
+                if "-fn" in prompt:
+                    file_name = prompt[prompt.index("-fn") + 1]
 
-        for i in range(len(usernames)):
-            if prnt:
-                print(str(i)+". "+ usernames[i])
-            if save:
-                f.write(str(i)+". "+ usernames[i] + "\n")
-        if save:
-            file_path = os.path.abspath(file_name)
-            print("File was saved to: " + file_path)
-            f.close()
+                if "-b" in prompt:
+                    bday = prompt[prompt.index("-b") + 1]
 
-    return usernames
+                if "-p" in prompt:
+                    prnt = True
+
+                if "-s" in prompt:
+                    save = True
+
+                temp = generate_usernames(name, last_name, bday, file_name, prnt, save)
+
+                usernames = {index: username for index, username in enumerate(temp)}
+
+
+            elif prompt[0] == "pass":
+
+                prnt = False
+                save = False
+                name, last_name, bday, file_name, prnt, save = None, None, None, False, False
+
+
+                if "-h" in prompt:
+                    print(pass_help_message)
+                    continue
+
+                if "-n" in prompt:
+                    name = prompt[prompt.index("-n") + 1]
+
+                if "-l" in prompt:
+                    last_name = prompt[prompt.index("-l") + 1]
+                
+                if "-fn" in prompt:
+                    file_name = prompt[prompt.index("-fn") + 1]
+
+                if "-b" in prompt:
+                    bday = prompt[prompt.index("-b") + 1]
+
+                if "-p" in prompt:
+                    prnt = True
+
+                if "-s" in prompt:
+                    save = True
+
+                temp = generate_passwords(name, last_name, bday, file_name, prnt, save)
+
+                passwords = {index: password for index, password in enumerate(temp)}
+                
+            
+            elif prompt[0] == "show":
+                if "-h" in prompt:
+                    print(show_help_message)
+                    continue
+                if "usernames" in prompt:
+                    if usernames:
+                        for k, v in usernames.items():
+                            print(f"{k}: {v}")
+                        continue
+                    else:
+                        print("Please generate a username list first.")
+                        continue
+                elif "lookup" in prompt:
+                    if lookup_results:
+                        for k, v in lookup_results.items():
+                            print(f"{k}: {v}")
+                        continue
+                    else:
+                        print("Please complete a lookup first.")
+                        continue
+            
+            elif prompt[0] == "lookup":
+                if "-h" in prompt:
+                    print(lookup_help_message)
+                    continue
+                
+                if "-i" in prompt:
+                    try:
+                        id = prompt[prompt.index("-i") + 1]
+                    except IndexError:
+                        print("Please specify an ID")
+                        continue
+                    except Exception as e:
+                        print(e)
+                    if not usernames:
+                        print("Generate a usernames list to start using IDs")
+                        continue
+                    
+                    try: 
+                        id = int(id)
+                    except:
+                        print("ID must be number")
+                        continue
+                    
+                    try: 
+                        username = usernames[id]
+                        print(username)
+                    except:
+                        print("Please select an ID in the list of usernames generated")
+                        continue
+                    
+                    try:
+                        lookup_results = search(username)
+                    except Exception as e:
+                        print(f"Error: {e}")
+                        continue
+                else:
+                    try:
+                        username = prompt[1]
+                    except IndexError:
+                        print("Please specify a username")
+                        continue
+                    except Exception as e:
+                        print(e)
+                        continue
+                    
+                    try:
+                        lookup_results = search(username)
+                    except Exception as e:
+                        print(f"Error: {e}")
+                        continue
+            
+            
+            elif prompt[0] == "mtdata":
+                if "-h" in prompt:
+                    print(mtdata_help_message)
+                    continue
+                
+                try:
+                    path = prompt[1]
+                    if not os.path.exists(path):
+                        print("File doesn't exist")
+                        continue
+                except: 
+                    print("No path specified.")
+                    continue
+                
+                if "-c" in prompt:
+                    if "-o" in prompt:
+                        out_path = path
+                    else:
+                        out_path = path.split("/")
+                        out_path[-1] = f"modified_{out_path[-1]}"
+                        out_path = "/".join(out_path)
+                    
+                    clear_metadata(path, out_path)
+                    
+                    mtdata = metadata_extractor(file_path=out_path, check = True)
+
+                    if not mtdata:
+                        print("Metadata was cleared successfully!!!")
+                else:                    
+                    show_mk_note = "-mn" in prompt
+                    mtdata = metadata_extractor(file_path=path)
+                    
+                    if mtdata:
+                        for k, v in mtdata.items():
+                            if k != "MakerNote" or show_mk_note:
+                                print(f"{k}: {v}")
+                
+                mtdata = {}
+
+            else:
+                print("Invalid command")
+except KeyboardInterrupt:
+    print("\nQuitting...")
