@@ -5,6 +5,12 @@ from lookup import search
 import os
 import sys
 import time
+import webbrowser
+
+
+
+
+
 
 ascii_art_lines = [
 "              ('-. .-.  .-')    ('-. .-.              .-') _  .-') _          ",
@@ -102,8 +108,14 @@ Notes:
     Before using this command, ensure you have generated usernames, performed a lookup, or generated a password list.
 """
 
+# A function used for openning links found in lookups
+def open_website(url):
+    webbrowser.open(url)
+
+
 username_file_path = ""
 pass_file_path = ""
+lookup_results = {}
 
 
 try:
@@ -351,6 +363,33 @@ try:
                     except Exception as e:
                         print(f"\033[94mError: {e}\033[0m")
                         continue
+            
+            
+            elif prompt[0] == "visit":
+                if "-h" in prompt:
+                    print(lookup_help_message)
+                    continue
+                
+                try:
+                    if lookup_results == {}:
+                        print("Please complete a lookup first")
+                        continue
+                    website_id = prompt[1]
+                    if not website_id.isdigit():
+                        print("Look up id must be a number")
+                        continue
+                    else: website_id = int(website_id)
+                    if website_id in lookup_results:
+                        open_website(lookup_results[website_id])
+                        print(f"Visiting {lookup_results[website_id]}...")
+
+                except IndexError:
+                    print("Please specify an ID")
+                except Exception as e:
+                    print(e)
+                    continue
+                    
+            
             
             
             elif prompt[0] == "mtdata":
