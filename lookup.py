@@ -74,9 +74,9 @@ def search(username: str) -> dict:
                 count += 1
         except requests.RequestException as e:
             print(f'\033[91m[-] Error accessing {url}: {e}\033[0m')  # Red for error
-    passwords = {index: url for index, url in enumerate(found_lst)}
+    websites = {index: url for index, url in enumerate(found_lst)}
     print(f'\033[94mFINISHED: A total of {count} MATCHES found out of {len(websites)} websites.\033[0m')  # Green for finished summary
-    return passwords
+    return websites
 
 if __name__ == '__main__':
     username = input('\033[92m{+} Enter username to lookup: \033[0m')
