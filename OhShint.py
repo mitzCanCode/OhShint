@@ -108,11 +108,14 @@ Notes:
 show_help_message = """
 """
 
+
+pass_file_path = ""
+
+
 print(ascii_art)
 
 try:
     while True:
-
             prompt = input("OhShint! > ")
             prompt = prompt.split()
             
@@ -171,30 +174,73 @@ try:
                     print(pass_help_message)
                     continue
 
-                if "-n" in prompt:
-                    name = prompt[prompt.index("-n") + 1]
 
-                if "-l" in prompt:
-                    last_name = prompt[prompt.index("-l") + 1]
-                
-                if "-fn" in prompt:
-                    file_name = prompt[prompt.index("-fn") + 1]
                 else:
-                    file_name = ""
-
-                if "-b" in prompt:
-                    bday = prompt[prompt.index("-b") + 1]
-
-                if "-p" in prompt:
-                    prnt = True
-
-                if "-s" in prompt:
-                    save = True
-
-                temp = generate_passwords(name, last_name, bday, file_name, prnt, save)
-
-                passwords = {index: password for index, password in enumerate(temp)}
+                    while True:
+                        name = input("What is the name of the target: ")
+                        if name == "":
+                            print("Name is not an optional parameter, please enter the targets name")
+                        elif not name.isalpha():
+                            print("Name should only contain letters")
+                        else:
+                            break
+                        
+                    while True:
+                        last_name = input("Enter the last name of the target: ")
+                        if last_name == "":
+                            print("Last name is not an optional parameter, please enter the targets last name")
+                        elif not last_name.isalpha():
+                            print("Last name should only contain letters")
+                        else:
+                            break
+                    
+                    
+                        
+                    while True:
+                        bday = input("Enter the birthday of the target (DDMMYYYY): ")
+                        if bday == "":
+                            print("Birthday is not an optional parameter, please enter the targets birthdate.")
+                        elif not bday.isdigit():
+                            print("Birthday entered contains letters, please enter the birthday in DDMMYYYY format and use only numbers.")
+                        elif len(bday) != 8:
+                            print("Invalid birthday format, please enter the birthday in DDMMYYYY format.")
+                        else:
+                            break
+                        
+                    pet = input("Enter the name of the targets pet (optional): ")
+                    nickname = input("Enter the nickname of the target (optional): ")
                 
+                    while True:
+                        size = input("Enter the size of the wordlist\nA) Small (~500 passwords)\nB) Medium(~1500 passwords)\nC) Large(~14000 passwords)\nNote: Sizes vary based on the information given\n\nSelection: ")
+                        if size == "":
+                            print("Wordlist size is not an optional parameter, please enter the desired size.")
+                        else:
+                            if size.lower() == "a" :
+                                size = "small"
+                                break
+                            elif size.lower() == "b" :
+                                size = "medium"
+                                break
+                            elif size.lower() == "c":
+                                size = "large"
+                                break
+                            else:
+                                print("Inavlid input")
+                                
+                        
+                        
+                    
+                    file_name = input("Enter the name you want the file to be saved as (optional): ")
+                    if file_name == "":
+                        file_name = f"{name}_{last_name}_wordlist.txt"
+                        print(f"File name was automatically set to: {name}_{last_name}_wordlist.txt")
+                    else: 
+                        file_name = file_name + ".txt"
+
+
+                temp_passwords, pass_file_path = generate_passwords(first_name=name, last_name=last_name, bday=bday, pet=pet, nickname=nickname, file_name=file_name, size=size)
+
+                passwords = {index: password for index, password in enumerate(temp_passwords)}
             
             elif prompt[0] == "show":
                 if "-h" in prompt:
@@ -216,6 +262,11 @@ try:
                     else:
                         print("Please complete a lookup first.")
                         continue
+                elif "pass" in prompt:
+                    if pass_file_path != "":
+                        print(f"Password list was stored at:\n {pass_file_path}")
+                    else:
+                        print("Please generate a password list first")
             
             elif prompt[0] == "lookup":
                 if "-h" in prompt:
