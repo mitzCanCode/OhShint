@@ -7,11 +7,6 @@ import sys
 import time
 import webbrowser
 
-
-
-
-
-
 ascii_art_lines = [
 "              ('-. .-.  .-')    ('-. .-.              .-') _  .-') _          ",
 "             ( OO )  / ( OO ). ( OO )  /             ( OO ) )(  OO) )         ",
@@ -87,6 +82,23 @@ Notes:
 
 """
 
+visit_help_message = """
+\033[94mVisit - Opens a browser tab of a URL found during a lookup033[0m
+
+Usage:
+    visit <id> 
+
+Options:
+    -h             Show this help message
+
+Examples:
+    visit 0
+
+Notes:
+    Before using this command, ensure you have completed a lookup first.
+
+"""
+
 show_help_message = """
 \033[94mShow - Displays generated usernames, lookup results, or password list storage path\033[0m
 
@@ -98,11 +110,6 @@ Options:
     usernames      Display the generated usernames
     lookup         Display the results of the lookup
     passwords      Display the path to the stored password list
-
-Examples:
-    show usernames       Display the generated usernames
-    show lookup          Display the results of the lookup
-    show passwords       Display the path to the stored password list
 
 Notes:
     Before using this command, ensure you have generated usernames, performed a lookup, or generated a password list.
@@ -136,6 +143,7 @@ try:
                 print("\033[94m3. lookup\t- Search for user information based on a username\033[0m")
                 print("\033[94m4. mtdata\t- Extract and clear metadata from images\033[0m")
                 print("\033[94m5. show\t\t- Display generated usernames, lookup results, or password list storage path\033[0m")
+                print("\033[94m5. visit\t\t- Open the webpage of a found url in a lookup\033[0m")
                 print("\033[94m6. help\t\t- Display this help message\033[0m")
                 print("\033[94m7. exit\t\t- Exit the program\033[0m")          
                 print("\033[94mFor more information on a command use: [COMMAND] -h\033[0m")
@@ -367,7 +375,7 @@ try:
             
             elif prompt[0] == "visit":
                 if "-h" in prompt:
-                    print(lookup_help_message)
+                    print(visit_help_message)
                     continue
                 
                 try:
@@ -382,7 +390,8 @@ try:
                     if website_id in lookup_results:
                         open_website(lookup_results[website_id])
                         print(f"Visiting {lookup_results[website_id]}...")
-
+                    else:
+                        print("Look up ID must be valid, run 'show lookup' to view valid commands")
                 except IndexError:
                     print("Please specify an ID")
                 except Exception as e:
