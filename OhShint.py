@@ -272,9 +272,8 @@ try:
                     if "usernames" in prompt:
                         for k, v in usernames.items():
                             print(f"{k}: {v}")
-                        print(username_file_path)
                         if username_file_path != "":
-                            (f"Username list was stored at:\n {username_file_path}")
+                            print(f"Username list was stored at:\n {username_file_path}")
                         continue
                     else:
                         print("Please generate a username list first.")
