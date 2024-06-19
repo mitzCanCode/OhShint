@@ -273,10 +273,8 @@ try:
                         print("Generate a usernames list to start using IDs")
                         continue
                     
-                    try: 
-                        id = int(id)
-                    except:
-                        print("ID must be number")
+                    if not id.isdigit():
+                        print("ID should be a number")
                         continue
                     
                     try: 
