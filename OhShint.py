@@ -97,8 +97,9 @@ Notes:
 show_help_message = """
 """
 
-
+username_file_path = ""
 pass_file_path = ""
+
 
 
 print(ascii_art)
@@ -118,7 +119,7 @@ try:
                 print("Help message here")
                 continue
 
-            elif prompt[0] == "usr":
+            elif prompt[0] == "user":
 
 
                 name, last_name, bday, prnt, save = None, None, None, False, False
@@ -126,30 +127,63 @@ try:
                 if "-h" in prompt:
                     print(usr_help_message)
                     continue
+                else: 
+                    while True:
+                        name = input("What is the name of the target: ")
+                        if name == "":
+                            print("Name is not an optional parameter, please enter the targets name")
+                        elif not name.isalpha():
+                            print("Name should only contain letters")
+                        else:
+                            break
 
-                if "-n" in prompt:
-                    name = prompt[prompt.index("-n") + 1]
+                    while True:
+                        last_name = input("Enter the last name of the target: ")
+                        if last_name == "":
+                            print("Last name is not an optional parameter, please enter the targets last name")
+                        elif not last_name.isalpha():
+                            print("Last name should only contain letters")
+                        else:
+                            break
 
-                if "-l" in prompt:
-                    last_name = prompt[prompt.index("-l") + 1]
+                    while True:
+                        bday = input("Enter the birthday of the target (DDMMYYYY): ")
+                        if bday == "":
+                            print("Birthday is not an optional parameter, please enter the targets birthdate.")
+                        elif not bday.isdigit():
+                            print("Birthday entered contains letters, please enter the birthday in DDMMYYYY format and use only numbers.")
+                        elif len(bday) != 8:
+                            print("Invalid birthday format, please enter the birthday in DDMMYYYY format.")
+                        else:
+                            break
+                        
+                    
+                    prnt = input("Would you like to display the created usernames? (y/N): ")
+                    try:
+                        if prnt == "" or prnt.lower() == "n":
+                            prnt = False
+                        elif prnt.lower() == "y":
+                            prnt = True
+                        else:
+                            prnt = False
+                    except:
+                        prnt = False
+                            
+                    if prnt: print("Result will be printed")
+                    else: print("Result won't be printed")
+
                 
-                if "-fn" in prompt:
-                    file_name = prompt[prompt.index("-fn") + 1]
-                else:
-                    file_name = ""
+                    file_name = input("Enter the name you want the file to be saved as (optional): ")
+                    if file_name == "":
+                        file_name = f"{name}_{last_name}_usernames.txt"
+                        print(f"File name was automatically set to: {name}_{last_name}_usernames.txt")
+                    else: 
+                        file_name = file_name + ".txt"
 
-                if "-b" in prompt:
-                    bday = prompt[prompt.index("-b") + 1]
 
-                if "-p" in prompt:
-                    prnt = True
+                temp_usernames, username_file_path = generate_usernames(first_name=name, last_name=last_name, bday=bday, file_name=file_name, prnt=prnt)
 
-                if "-s" in prompt:
-                    save = True
-
-                temp = generate_usernames(name, last_name, bday, file_name, prnt, save)
-
-                usernames = {index: username for index, username in enumerate(temp)}
+                usernames = {index: username for index, username in enumerate(temp_usernames)}
 
 
             elif prompt[0] == "pass":
@@ -238,6 +272,9 @@ try:
                     if "usernames" in prompt:
                         for k, v in usernames.items():
                             print(f"{k}: {v}")
+                        print(username_file_path)
+                        if username_file_path != "":
+                            (f"Username list was stored at:\n {username_file_path}")
                         continue
                     else:
                         print("Please generate a username list first.")
@@ -250,7 +287,7 @@ try:
                     else:
                         print("Please complete a lookup first.")
                         continue
-                elif "pass" in prompt:
+                elif "passwords" in prompt:
                     if pass_file_path != "":
                         print(f"Password list was stored at:\n {pass_file_path}")
                     else:
