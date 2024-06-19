@@ -22,9 +22,9 @@ ascii_art_lines = [
 
 main_help_message = """
 \033[94mAvailable Commands:\033[0m
-\033[94m1. user\t\t- Generate potential usernames\033[0m
-\033[94m2. pass\t\t- Generate potential passwords\033[0m
-\033[94m3. lookup\t- Search for user information based on a username\033[0m
+\033[94m1. user\t\t- Generate a list of potential usernames\033[0m
+\033[94m2. pass\t\t- Generate a list of potential passwords\033[0m
+\033[94m3. lookup\t- Search for a username on different social media sites\033[0m
 \033[94m4. mtdata\t- Extract and clear metadata from images\033[0m
 \033[94m5. show\t\t- Display generated usernames, lookup results, or password list storage path\033[0m
 \033[94m5. visit\t\t- Open the webpage of a found url in a lookup\033[0m
