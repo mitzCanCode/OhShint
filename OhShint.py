@@ -19,11 +19,11 @@ ascii_art_lines = [
 ]
 
 for line in ascii_art_lines:
-    print(line)
+    print(f"\033[94m{line}\033[0m")
     time.sleep(0.07)
 
 mtdata_help_message = """
-mtdata - Metadata extraction and clearing tool
+\033[94mmtdata - Metadata extraction and clearing tool\033[0m
 
 Usage:
   mtdata <file_path> [options] 
@@ -42,28 +42,17 @@ Examples:
 """
 
 user_help_message = """
-Username finder - Generates potential usernames
+\033[94mUsername generator - Generates potential usernames\033[0m
 
 Usage:
-    usr [options]
+    user 
 
-Options:
-    -h             Show this help message
-    -n             Name that will be used to generate usernames
-    -l             Lastname that will be used to generate usernames
-    -b             Birthday that will be used to generate usernames (format: DDMMYYYY)
-    -p             Print all the usernames
-    -s             Save all the usernames on a txt file
-    -fn            Set a custom file name
-
-Examples:
-    usr -n Name -l Surname -b 13052000 -p -s
-    usr -l Surname -b 15031969
-    usr -N Name -l Surname -p -s -fn fileName
-
+How to use: 
+Just run the command and follow the steps!
 """
+
 pass_help_message = """
-Password finder - Generates potential passwords
+\033[94mPassword finder - Generates potential passwords\033[0m
 
 Usage:
     pass 
@@ -73,7 +62,7 @@ Just run the command and follow the steps!
 """
 
 lookup_help_message = """
-Lookup - Searches for user information based on a username
+\033[94mLookup - Searches for user information based on a username\033[0m
 
 Usage:
     lookup <username> [options]
@@ -93,7 +82,7 @@ Notes:
 """
 
 show_help_message = """
-Show - Displays generated usernames, lookup results, or password list storage path
+\033[94mShow - Displays generated usernames, lookup results, or password list storage path\033[0m
 
 Usage:
     show [options]
@@ -117,8 +106,6 @@ username_file_path = ""
 pass_file_path = ""
 
 
-
-
 try:
     while True:
             prompt = input("OhShint! > ")
@@ -128,10 +115,19 @@ try:
                 continue
             
             elif prompt[0] == "exit":
-                print("Quitting...")
+                print("\033[94mQuitting...\033[0m")
                 sys.exit()
             elif prompt[0] == "help":
-                print("Help message here")
+                print("\033[94mAvailable Commands:\033[0m")
+                print("\033[94m1. user\t\t- Generate potential usernames\033[0m")
+                print("\033[94m2. pass\t\t- Generate potential passwords\033[0m")
+                print("\033[94m3. lookup\t- Search for user information based on a username\033[0m")
+                print("\033[94m4. mtdata\t- Extract and clear metadata from images\033[0m")
+                print("\033[94m5. show\t\t- Display generated usernames, lookup results, or password list storage path\033[0m")
+                print("\033[94m6. help\t\t- Display this help message\033[0m")
+                print("\033[94m7. exit\t\t- Exit the program\033[0m")          
+                print("\033[94mFor more information on a command use: [COMMAND] -h\033[0m")
+
                 continue
 
             elif prompt[0] == "user":
@@ -146,29 +142,29 @@ try:
                     while True:
                         name = input("What is the name of the target: ")
                         if name == "":
-                            print("Name is not an optional parameter, please enter the targets name")
+                            print("\033[94mName is not an optional parameter, please enter the targets name\033[0m")
                         elif not name.isalpha():
-                            print("Name should only contain letters")
+                            print("\033[94mName should only contain letters\033[0m")
                         else:
                             break
 
                     while True:
                         last_name = input("Enter the last name of the target: ")
                         if last_name == "":
-                            print("Last name is not an optional parameter, please enter the targets last name")
+                            print("\033[94mLast name is not an optional parameter, please enter the targets last name\033[0m")
                         elif not last_name.isalpha():
-                            print("Last name should only contain letters")
+                            print("\033[94mLast name should only contain letters\033[0m")
                         else:
                             break
 
                     while True:
                         bday = input("Enter the birthday of the target (DDMMYYYY): ")
                         if bday == "":
-                            print("Birthday is not an optional parameter, please enter the targets birthdate.")
+                            print("\033[94mBirthday is not an optional parameter, please enter the targets birthdate.\033[0m")
                         elif not bday.isdigit():
-                            print("Birthday entered contains letters, please enter the birthday in DDMMYYYY format and use only numbers.")
+                            print("\033[94mBirthday entered contains letters, please enter the birthday in DDMMYYYY format and use only numbers.\033[0m")
                         elif len(bday) != 8:
-                            print("Invalid birthday format, please enter the birthday in DDMMYYYY format.")
+                            print("\033[94mInvalid birthday format, please enter the birthday in DDMMYYYY format.\033[0m")
                         else:
                             break
                         
@@ -184,14 +180,14 @@ try:
                     except:
                         prnt = False
                             
-                    if prnt: print("Result will be printed")
-                    else: print("Result won't be printed")
+                    if prnt: print("\033[94mResult will be printed\033[0m")
+                    else: print("\033[94mResult won't be printed\033[0m")
 
                 
                     file_name = input("Enter the name you want the file to be saved as (optional): ")
                     if file_name == "":
                         file_name = f"{name}_{last_name}_usernames.txt"
-                        print(f"File name was automatically set to: {name}_{last_name}_usernames.txt")
+                        print(f"\033[94mFile name was automatically set to: {name}_{last_name}_usernames.txt\033[0m")
                     else: 
                         file_name = file_name + ".txt"
 
@@ -217,18 +213,18 @@ try:
                     while True:
                         name = input("What is the name of the target: ")
                         if name == "":
-                            print("Name is not an optional parameter, please enter the targets name")
+                            print("\033[94mName is not an optional parameter, please enter the targets name\033[0m")
                         elif not name.isalpha():
-                            print("Name should only contain letters")
+                            print("\033[94mName should only contain letters\033[0m")
                         else:
                             break
                         
                     while True:
                         last_name = input("Enter the last name of the target: ")
                         if last_name == "":
-                            print("Last name is not an optional parameter, please enter the targets last name")
+                            print("\033[94mLast name is not an optional parameter, please enter the targets last name\033[0m")
                         elif not last_name.isalpha():
-                            print("Last name should only contain letters")
+                            print("\033[94mLast name should only contain letters\033[0m")
                         else:
                             break
                     
@@ -237,11 +233,11 @@ try:
                     while True:
                         bday = input("Enter the birthday of the target (DDMMYYYY): ")
                         if bday == "":
-                            print("Birthday is not an optional parameter, please enter the targets birthdate.")
+                            print("\033[94mBirthday is not an optional parameter, please enter the targets birthdate.\033[0m")
                         elif not bday.isdigit():
-                            print("Birthday entered contains letters, please enter the birthday in DDMMYYYY format and use only numbers.")
+                            print("\033[94mBirthday entered contains letters, please enter the birthday in DDMMYYYY format and use only numbers.\033[0m")
                         elif len(bday) != 8:
-                            print("Invalid birthday format, please enter the birthday in DDMMYYYY format.")
+                            print("\033[94mInvalid birthday format, please enter the birthday in DDMMYYYY format.\033[0m")
                         else:
                             break
                         
@@ -251,7 +247,7 @@ try:
                     while True:
                         size = input("Enter the size of the wordlist\nA) Small (~500 passwords)\nB) Medium(~1500 passwords)\nC) Large(~14000 passwords)\nNote: Sizes vary based on the information given\n\nSelection: ")
                         if size == "":
-                            print("Wordlist size is not an optional parameter, please enter the desired size.")
+                            print("\033[94mWordlist size is not an optional parameter, please enter the desired size.\033[0m")
                         else:
                             if size.lower() == "a" :
                                 size = "small"
@@ -263,7 +259,7 @@ try:
                                 size = "large"
                                 break
                             else:
-                                print("Inavlid input")
+                                print("\033[94mInvalid input\033[0m")
                                 
                         
                         
@@ -271,7 +267,7 @@ try:
                     file_name = input("Enter the name you want the file to be saved as (optional): ")
                     if file_name == "":
                         file_name = f"{name}_{last_name}_wordlist.txt"
-                        print(f"File name was automatically set to: {name}_{last_name}_wordlist.txt")
+                        print(f"\033[94mFile name was automatically set to: {name}_{last_name}_wordlist.txt\033[0m")
                     else: 
                         file_name = file_name + ".txt"
 
@@ -288,10 +284,10 @@ try:
                         for k, v in usernames.items():
                             print(f"{k}: {v}")
                         if username_file_path != "":
-                            print(f"Username list was stored at:\n {username_file_path}")
+                            print(f"\033[94mUsername list was stored at:\n {username_file_path}\033[0m")
                         continue
                     else:
-                        print("Please generate a username list first.")
+                        print("\033[94mPlease generate a username list first.\033[0m")
                         continue
                 elif "lookup" in prompt:
                     if lookup_results:
@@ -299,13 +295,13 @@ try:
                             print(f"{k}: {v}")
                         continue
                     else:
-                        print("Please complete a lookup first.")
+                        print("\033[94mPlease complete a lookup first.\033[0m")
                         continue
                 elif "passwords" in prompt:
                     if pass_file_path != "":
-                        print(f"Password list was stored at:\n {pass_file_path}")
+                        print(f"\033[94mPassword list was stored at:\n {pass_file_path}\033[0m")
                     else:
-                        print("Please generate a password list first")
+                        print("\033[94mPlease generate a password list first\033[0m")
             
             elif prompt[0] == "lookup":
                 if "-h" in prompt:
@@ -316,44 +312,44 @@ try:
                     try:
                         id = prompt[prompt.index("-i") + 1]
                     except IndexError:
-                        print("Please specify an ID")
+                        print("\033[94mPlease specify an ID\033[0m")
                         continue
                     except Exception as e:
-                        print(e)
+                        print(f"\033[94m{e}\033[0m")
                     if not usernames:
-                        print("Generate a usernames list to start using IDs")
+                        print("\033[94mGenerate a usernames list to start using IDs\033[0m")
                         continue
                     
                     if not id.isdigit():
-                        print("ID should be a number")
+                        print("\033[94mID should be a number\033[0m")
                         continue
                     
                     try: 
                         username = usernames[id]
                         print(username)
                     except:
-                        print("Please select an ID in the list of usernames generated")
+                        print("\033[94mPlease select an ID in the list of usernames generated\033[0m")
                         continue
                     
                     try:
                         lookup_results = search(username)
                     except Exception as e:
-                        print(f"Error: {e}")
+                        print(f"\033[94mError: {e}\033[0m")
                         continue
                 else:
                     try:
                         username = prompt[1]
                     except IndexError:
-                        print("Please specify a username")
+                        print("\033[94mPlease specify a username\033[0m")
                         continue
                     except Exception as e:
-                        print(e)
+                        print(f"\033[94m{e}\033[0m")
                         continue
                     
                     try:
                         lookup_results = search(username)
                     except Exception as e:
-                        print(f"Error: {e}")
+                        print(f"\033[94mError: {e}\033[0m")
                         continue
             
             
@@ -365,10 +361,10 @@ try:
                 try:
                     path = prompt[1]
                     if not os.path.exists(path):
-                        print("File doesn't exist")
+                        print("\033[94mFile doesn't exist\033[0m")
                         continue
                 except: 
-                    print("No path specified.")
+                    print("\033[94mNo path specified.\033[0m")
                     continue
                 
                 if "-c" in prompt:
@@ -384,7 +380,7 @@ try:
                     mtdata = metadata_extractor(file_path=out_path, check = True)
 
                     if not mtdata:
-                        print("Metadata was cleared successfully!!!")
+                        print("\033[94mMetadata was cleared successfully!!!\033[0m")
                 else:                    
                     show_mk_note = "-mn" in prompt
                     mtdata = metadata_extractor(file_path=path)
@@ -392,11 +388,11 @@ try:
                     if mtdata:
                         for k, v in mtdata.items():
                             if k != "MakerNote" or show_mk_note:
-                                print(f"{k}: {v}")
+                                print(f"\033[94m{k}:\033[0m {v}")
                 
                 mtdata = {}
 
             else:
-                print("Invalid command")
+                print("\033[94mInvalid command\033[0m")
 except KeyboardInterrupt:
-    print("\nQuitting...")
+    print("\n\033[94mQuitting...\033[0m")
