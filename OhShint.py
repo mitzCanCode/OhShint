@@ -68,21 +68,10 @@ pass_help_message = """
 Password finder - Generates potential passwords
 
 Usage:
-    pass [options]
+    pass 
 
-Options:
-    -h             Show this help message
-    -n             Name that will be used to generate passwords
-    -l             Lastname that will be used to generate passwords
-    -b             Birthday that will be used to generate passwords (format: DDMMYYYY)
-    -p             Print all the passwords
-    -s             Save all the passwords in a txt file
-    -fn            Set a custom file name
-
-Examples:
-    pass -n Name -l Surname -b 13052000 -p -s
-    pass -l Surname -b 15031969
-    pass -N Name -l Surname -p -s -fn fileName
+How to use: 
+Just run the command and follow the steps!
 """
 
 lookup_help_message = """
@@ -239,7 +228,6 @@ try:
 
 
                 temp_passwords, pass_file_path = generate_passwords(first_name=name, last_name=last_name, bday=bday, pet=pet, nickname=nickname, file_name=file_name, size=size)
-
                 passwords = {index: password for index, password in enumerate(temp_passwords)}
             
             elif prompt[0] == "show":
