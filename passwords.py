@@ -145,11 +145,11 @@ def generate_passwords(first_name: str = "", last_name: str = "", bday: str = ""
             f.write(f"{password}\n")
         f.write(f"\nTotal passwords generated: {len(passwords)}")
         file_path = os.path.abspath(file_name)
-        print("File was saved to:", file_path)
+        print("\033[94mFile was saved to:\033[0m", file_path)
             
-    print(f"Total passwords generated: {len(passwords)}")
+    print(f"\033[94mTotal passwords generated:\033[0m {len(passwords)}")
     return passwords, file_path
 
 if __name__ == "__main__":
     # Example usage:
-    temp_passwords, pass_file_path = generate_passwords(first_name="Name", last_name="Surname", bday="12345678", pet="Kali", nickname="Nickname", file_name="name_lastname", size="medium")
+    generate_passwords(first_name="Name", last_name="Surname", bday="12345678", pet="Kali", nickname="Nickname", file_name="name_lastname", size="medium")
