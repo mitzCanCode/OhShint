@@ -7,6 +7,7 @@ import sys
 import time
 import webbrowser
 
+
 ascii_art_lines = [
 "              ('-. .-.  .-')    ('-. .-.              .-') _  .-') _          ",
 "             ( OO )  / ( OO ). ( OO )  /             ( OO ) )(  OO) )         ",
@@ -19,9 +20,20 @@ ascii_art_lines = [
 "     `-----' `--' `--' `-----' `--' `--'  `--'   `--'  `--'     `--'`-'`-'`-' "
 ]
 
-for line in ascii_art_lines:
-    print(f"\033[94m{line}\033[0m")
-    time.sleep(0.07)
+main_help_message = """
+\033[94mAvailable Commands:\033[0m
+\033[94m1. user\t\t- Generate potential usernames\033[0m
+\033[94m2. pass\t\t- Generate potential passwords\033[0m
+\033[94m3. lookup\t- Search for user information based on a username\033[0m
+\033[94m4. mtdata\t- Extract and clear metadata from images\033[0m
+\033[94m5. show\t\t- Display generated usernames, lookup results, or password list storage path\033[0m
+\033[94m5. visit\t\t- Open the webpage of a found url in a lookup\033[0m
+\033[94m6. help\t\t- Display this help message\033[0m
+\033[94m7. exit\t\t- Exit the program\033[0m
+\033[94mFor more information on a command use: [COMMAND] -h\033[0m
+"""
+
+
 
 mtdata_help_message = """
 \033[94mmtdata - Metadata extraction and clearing tool\033[0m
@@ -125,6 +137,13 @@ pass_file_path = ""
 lookup_results = {}
 
 
+
+for line in ascii_art_lines:
+    print(f"\033[94m{line}\033[0m")
+    time.sleep(0.07)
+print(f"\n{main_help_message}\n")
+
+
 try:
     while True:
             prompt = input("OhShint! > ")
@@ -137,17 +156,7 @@ try:
                 print("\033[94mQuitting...\033[0m")
                 sys.exit()
             elif prompt[0] == "help":
-                print("\033[94mAvailable Commands:\033[0m")
-                print("\033[94m1. user\t\t- Generate potential usernames\033[0m")
-                print("\033[94m2. pass\t\t- Generate potential passwords\033[0m")
-                print("\033[94m3. lookup\t- Search for user information based on a username\033[0m")
-                print("\033[94m4. mtdata\t- Extract and clear metadata from images\033[0m")
-                print("\033[94m5. show\t\t- Display generated usernames, lookup results, or password list storage path\033[0m")
-                print("\033[94m5. visit\t\t- Open the webpage of a found url in a lookup\033[0m")
-                print("\033[94m6. help\t\t- Display this help message\033[0m")
-                print("\033[94m7. exit\t\t- Exit the program\033[0m")          
-                print("\033[94mFor more information on a command use: [COMMAND] -h\033[0m")
-
+                print(main_help_message)
                 continue
 
             elif prompt[0] == "user":
