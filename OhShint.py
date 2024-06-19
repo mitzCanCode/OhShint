@@ -5,6 +5,25 @@ from lookup import search
 import os
 import sys
 
+
+
+import time
+import os
+
+ascii_art = """
+              ('-. .-.  .-')    ('-. .-.              .-') _  .-') _          
+             ( OO )  / ( OO ). ( OO )  /             ( OO ) )(  OO) )         
+ .-'),-----. ,--. ,--.(_)---\_),--. ,--.  ,-.-') ,--./ ,--,' /     '._        
+( OO'  .-.  '|  | |  |/    _ | |  | |  |  |  |OO)|   \ |  |\ |'--...__)       
+/   |  | |  ||   .|  |\  :` `. |   .|  |  |  |  \|    \|  | )'--.  .--'       
+\_) |  |\|  ||       | '..`''.)|       |  |  |(_/|  .     |/    |  |          
+  \ |  | |  ||  .-.  |.-._)   \|  .-.  | ,|  |_.'|  |\    |     |  |          
+   `'  '-'  '|  | |  |\       /|  | |  |(_|  |   |  | \   |     |  |.-..-..-. 
+     `-----' `--' `--' `-----' `--' `--'  `--'   `--'  `--'     `--'`-'`-'`-' 
+"""
+
+
+
 mtdata_help_message = """
 mtdata - Metadata extraction and clearing tool
 
@@ -89,13 +108,18 @@ Notes:
 show_help_message = """
 """
 
+print(ascii_art)
+
 try:
     while True:
 
             prompt = input("OhShint! > ")
             prompt = prompt.split()
             
-            if prompt[0] == "exit":
+            if not prompt:
+                continue
+            
+            elif prompt[0] == "exit":
                 print("Quitting...")
                 sys.exit()
             elif prompt[0] == "help":
