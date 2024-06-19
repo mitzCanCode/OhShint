@@ -4,25 +4,23 @@ from image_metadata import metadata_extractor, clear_metadata
 from lookup import search
 import os
 import sys
-
-
-
 import time
-import os
 
-ascii_art = """
-              ('-. .-.  .-')    ('-. .-.              .-') _  .-') _          
-             ( OO )  / ( OO ). ( OO )  /             ( OO ) )(  OO) )         
- .-'),-----. ,--. ,--.(_)---\_),--. ,--.  ,-.-') ,--./ ,--,' /     '._        
-( OO'  .-.  '|  | |  |/    _ | |  | |  |  |  |OO)|   \ |  |\ |'--...__)       
-/   |  | |  ||   .|  |\  :` `. |   .|  |  |  |  \|    \|  | )'--.  .--'       
-\_) |  |\|  ||       | '..`''.)|       |  |  |(_/|  .     |/    |  |          
-  \ |  | |  ||  .-.  |.-._)   \|  .-.  | ,|  |_.'|  |\    |     |  |          
-   `'  '-'  '|  | |  |\       /|  | |  |(_|  |   |  | \   |     |  |.-..-..-. 
-     `-----' `--' `--' `-----' `--' `--'  `--'   `--'  `--'     `--'`-'`-'`-' 
-"""
+ascii_art_lines = [
+"              ('-. .-.  .-')    ('-. .-.              .-') _  .-') _          ",
+"             ( OO )  / ( OO ). ( OO )  /             ( OO ) )(  OO) )         ",
+" .-'),-----. ,--. ,--.(_)---\_),--. ,--.  ,-.-') ,--./ ,--,' /     '._        ",
+"( OO'  .-.  '|  | |  |/    _ | |  | |  |  |  |OO)|   \ |  |\ |'--...__)       ",
+"/   |  | |  ||   .|  |\  :` `. |   .|  |  |  |  \|    \|  | )'--.  .--'       ",
+"\_) |  |\|  ||       | '..`''.)|       |  |  |(_/|  .     |/    |  |          ",
+"  \ |  | |  ||  .-.  |.-._)   \|  .-.  | ,|  |_.'|  |\    |     |  |          ",
+"   `'  '-'  '|  | |  |\       /|  | |  |(_|  |   |  | \   |     |  |.-..-..-. ",
+"     `-----' `--' `--' `-----' `--' `--'  `--'   `--'  `--'     `--'`-'`-'`-' "
+]
 
-
+for line in ascii_art_lines:
+    print(line)
+    time.sleep(0.07)
 
 mtdata_help_message = """
 mtdata - Metadata extraction and clearing tool
@@ -43,7 +41,7 @@ Examples:
   mtdata image.jpg  -c -o 		    Clear metadata from image.jpg and save the result as new_image.jpg
 """
 
-usr_help_message = """
+user_help_message = """
 Username finder - Generates potential usernames
 
 Usage:
@@ -95,6 +93,24 @@ Notes:
 """
 
 show_help_message = """
+Show - Displays generated usernames, lookup results, or password list storage path
+
+Usage:
+    show [options]
+
+Options:
+    -h             Show this help message
+    usernames      Display the generated usernames
+    lookup         Display the results of the lookup
+    passwords      Display the path to the stored password list
+
+Examples:
+    show usernames       Display the generated usernames
+    show lookup          Display the results of the lookup
+    show passwords       Display the path to the stored password list
+
+Notes:
+    Before using this command, ensure you have generated usernames, performed a lookup, or generated a password list.
 """
 
 username_file_path = ""
@@ -102,7 +118,6 @@ pass_file_path = ""
 
 
 
-print(ascii_art)
 
 try:
     while True:
@@ -125,7 +140,7 @@ try:
                 name, last_name, bday, prnt, save = None, None, None, False, False
                 
                 if "-h" in prompt:
-                    print(usr_help_message)
+                    print(user_help_message)
                     continue
                 else: 
                     while True:
