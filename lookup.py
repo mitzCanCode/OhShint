@@ -65,17 +65,17 @@ def search(username: str) -> dict:
             if r.status_code == 200:
                 if match:
                     match = False
-                print(f'\033[92m\n{url} - {r.status_code} - OK\033[0m')  # Green for OK status
+                print(f'\033[94m\n{url} - {r.status_code} - OK\033[0m')  # Green for OK status
                 if username in r.text:
-                    print(f'\033[92mPositive match.\033[0m')  # Green for positive match
+                    print(f'\033[94mPositive match.\033[0m')  # Green for positive match
                 else:
-                    print(f'\033[93mPositive match.\n WARNING: \033[91mtext has NOT been detected in url, could be a false positive.\033[0m')  # Yellow for warning and red for false positive warning
+                    print(f'\033[93mPositive match.\nWARNING: \033[91mText has NOT been detected in url, could be a false positive.\033[0m')  # Yellow for warning and red for false positive warning
                 found_lst.append(url)
                 count += 1
         except requests.RequestException as e:
             print(f'\033[91m[-] Error accessing {url}: {e}\033[0m')  # Red for error
     passwords = {index: url for index, url in enumerate(found_lst)}
-    print(f'\033[92mFINISHED: A total of {count} MATCHES found out of {len(websites)} websites.\033[0m')  # Green for finished summary
+    print(f'\033[94mFINISHED: A total of {count} MATCHES found out of {len(websites)} websites.\033[0m')  # Green for finished summary
     return passwords
 
 if __name__ == '__main__':
