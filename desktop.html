@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styling/styling_main.css">
+    <link rel="icon" href="assets/OhShint_rounded.png" type="image/png">
+    <title>OhShint</title>
+</head>
+<body>
+    <tt>
+    <header>
+        <div class="logo">
+        <h5>
+<pre>
+     ('-. .-.  .-')    ('-. .-.              .-') _  .-') _    
+     ( OO )  / ( OO ). ( OO )  /             ( OO ) )(  OO) )   
+ .-'),-----. ,--. ,--.(_)---\_),--. ,--.  ,-.-') ,--./ ,--,' /     '._  
+( OO'  .-.  '|  | |  |/    _ | |  | |  |  |  |OO)|   \ |  |\ |'--...__) 
+/   |  | |  ||   .|  |\  :` `. |   .|  |  |  |  \|    \|  | )'--.  .--' 
+\_) |  |\|  ||       | '..`''.)|       |  |  |(_/|  .     |/    |  |    
+  \ |  | |  ||  .-.  |.-._)   \|  .-.  | ,|  |_.'|  |\    |     |  |    
+   `'  '-'  '|  | |  |\       /|  | |  |(_|  |   |  | \   |     |  |    
+     `-----' `--' `--' `-----' `--' `--'  `--'   `--'  `--'     `--'    
+</pre>
+        </h5>
+        </div>
+    </header>
+    <main>
+            <div class="container">
+                <div class="description">
+                    <p>Welcome to OhShint. This is a tool designed to help with OSINT investigation. It can generate potential usernames and passwords, gather or clear exif data from an image and lookup potential social media profiles of a username.</p>
+                </div>
+                <div class="project-details">
+                    <h2>Project Details</h2>
+                    <p>This project is hosted on GitHub. For more details, please visit the <a href="https://github.com/dxmxtrxs/OhShint" style="color: #DFD0B8;">OhShint GitHub repository</a>.</p>
+                    <p>Contributions, issues, and feature requests are welcome! Feel free to check the repository for the latest updates and to participate in the development.</p>
+                </div>
+                <div class="commands">
+                    <h2>Available Commands</h2>
+                    <ul>
+                        <li><strong>mtdata</strong> - Extract or clear metadata from an image.</li>
+                        <li><strong>user</strong> - Generate a list of possible usernames.</li>
+                        <li><strong>pass</strong> - Generate a list of possible passwords.</li>
+                        <li><strong>mtdata</strong> - Extract and clear metadata from images.</li>
+                        <li><strong>lookup</strong> - Search for a username on different social media sites.</li>
+                        <li><strong>show</strong> - Display generated usernames, lookup results, or password list storage path.</li>
+                        <li><strong>visit</strong> - Open the webpage of a found url in a lookup.</li>
+                        <li><strong>help</strong> - Display help information about commands or general usage.</li>
+                        <li><strong>exit</strong> - Exit the program.</li>
+                    </ul>
+                </div>
+
+
+
+                <div class="setup">
+                    <h2>Setup</h2>
+                    <ul>
+                    <li><h3>Step 1:</h3></li>
+                    Download the latest version of OhShint from the <a href="https://github.com/dxmxtrxs/OhShint" style="color: #DFD0B8;">OhShint GitHub repository</a>.
+                    <div class="mac-window">
+                        <div class="mac-window-header">
+                            <div class="buttons">
+                                <div class="button red"></div>
+                                <div class="button yellow"></div>
+                                <div class="button green"></div>
+                            </div>
+                        </div>
+                        <div class="mac-window-content">
+                            <pre><code class="bash">
+<span class="user">user</span><span>@localhost</span># <span class="step1_command">git clone https://github.com/dxmxtrxs/OhShint.git</span>
+                            </code></pre>
+                        </div>
+                    </div>
+                    
+                    <li><h3>Step 2:</h3></li>
+                    Navigate to the OhShint folder.
+                    <div class="mac-window">
+                        <div class="mac-window-header">
+                            <div class="buttons">
+                                <div class="button red"></div>
+                                <div class="button yellow"></div>
+                                <div class="button green"></div>
+                            </div>
+                        </div>
+                        <div class="mac-window-content">
+                            <pre><code class="bash">
+<span class="user">user</span><span>@localhost</span># <span class="step1_command">cd /directory/where/ohshint/was/downloaded/at</span>
+                            </code></pre>
+                        </div>
+                    </div>
+                    
+
+                    <li><h3>Step 3:</h3></li>
+                    Install the requirements.
+                    <div class="mac-window">
+                        <div class="mac-window-header">
+                            <div class="buttons">
+                                <div class="button red"></div>
+                                <div class="button yellow"></div>
+                                <div class="button green"></div>
+                            </div>
+                        </div>
+                        <div class="mac-window-content">
+                            <pre><code class="bash">
+<span class="user">user</span><span>@localhost</span># <span class="step1_command">pip3 install piexif requests Pillow</span>
+                            </code></pre>
+                        </div>
+                    </div>
+                    </ul>
+                </div>
+
+
+
+
+
+                <div class="usage">
+                    <h2>How to use</h2>
+                    <ul>
+                    <li><h3>Step 1:</h3></li>
+                    Start the script.
+                    <div class="mac-window">
+                        <div class="mac-window-header">
+                            <div class="buttons">
+                                <div class="button red"></div>
+                                <div class="button yellow"></div>
+                                <div class="button green"></div>
+                            </div>
+                        </div>
+                        <div class="mac-window-content">
+                            <pre><code class="bash">
+<span class="user">user</span><span>@localhost</span># <span class="step1_command">python3 OhShint.py</span>
+                            </code></pre>
+                        </div>
+                    </div>
+
+                    <li><h3>Step 2:</h3></li>
+                    Start searching!
+                    <div class="mac-window">
+                        <div class="mac-window-header">
+                            <div class="buttons">
+                                <div class="button red"></div>
+                                <div class="button yellow"></div>
+                                <div class="button green"></div>
+                            </div>
+                        </div>
+                        <div class="mac-window-content">
+                            <pre><code class="bash">
+<span class="OhShint">OhShint</span><span class ="pointer">></span> <span class = "command">command</span>
+<span class="results"></span>    
+                        </code></pre>
+                        </div>
+                    </div>
+                    </ul>
+                </div>
+
+
+
+
+
+                <div class="notes">
+                    <h2>Notes</h2>
+                    <ul>
+                        <li>The script is stable on macOS it hasnt been tested in other operating systems yet.</li>
+                    </ul>
+                </div>
+                <div class="contributors">
+                    <h2>Contributors</h2>
+                    <ul id="contributors-list">
+                        <!-- Contributors will be dynamically inserted here -->
+                    </ul>
+                </div>
+            </div>
+    </main>
+    <footer class="footer">
+        This is a project made for fun; it shouldn't be used in the real-world. We aren't liable for any damage caused by the user.
+    </footer>
+
+    <script src="javascript/contributors.js"></script>
+    <script src="javascript/commands.js"></script>
+    
+</tt>
+</body>
+</html>

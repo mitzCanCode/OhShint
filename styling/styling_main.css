@@ -1,0 +1,78 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #001314; 
+    color: #f5fffa; 
+}
+
+header {
+    color: #deb887; 
+    padding: 1rem;
+    text-align: center;
+}
+
+tt {
+    font-family: 'SF Mono', SFMono-Regular, ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace;
+}
+
+.description {
+    margin-top: 1rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #deb887; 
+}
+
+.contributors ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.contributor {
+    text-align: center;
+    margin: 1rem;
+}
+.contributor img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+.contributor p {
+    margin: 0.5rem 0;
+}
+.contributor a {
+    color: #deb887;
+    text-decoration: none;
+}
+.contributor a:hover {
+    text-decoration: underline;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #1e1e1e; 
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.commands, .usage, .notes, .contributors, .project-details {
+    margin-top: 2rem;
+}
+
+.commands ul, .notes ul, .contributors ul {
+    list-style: none;
+    padding: 0;
+}
+
+.commands li, .notes li, .contributors li {
+    margin-bottom: 0.5rem;
+}
+
+.footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #1e1e1e; 
+    color: #f5fffa; 
+}
