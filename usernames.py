@@ -1,6 +1,6 @@
 import os
 
-def generate_usernames(first_name: str = "", last_name: str = "", bday: str = "", file_name: str = "", prnt: bool = True) -> list:
+def generate_usernames(first_name: str = "", last_name: str = "", bday: str = "", file_name: str = "", prnt: bool = True, save: bool = True) -> list:
     # Convert all inputs to lowercase for consistency
     first_name = first_name.lower()
     last_name = last_name.lower()
@@ -104,17 +104,19 @@ def generate_usernames(first_name: str = "", last_name: str = "", bday: str = ""
                 last_name + "." + "123", last_name + "_" + "123", last_name[0] + "123",
                 last_name[:2] + "123"
             ])
+    if save:
+        with open(file_name, "w") as f:
+            for i in range(len(usernames)):
+                if prnt:
+                    print(f"\033[94m{i}. {usernames[i]}\033[0m")
+                f.write(usernames[i] + "\n")
+            f.write(f"\nTotal usernames generated: {len(usernames)}")
+            file_path = os.path.abspath(file_name)
+            print(f"\033[94mFile was saved to: {file_path}\033[0m")
+            print(f"\033[94mTotal usernames generated: {len(usernames)}\033[0m")
+    else:
+        file_path = ""
 
-    with open(file_name, "w") as f:
-        for i in range(len(usernames)):
-            if prnt:
-                print(f"\033[94m{i}. {usernames[i]}\033[0m")
-            f.write(usernames[i] + "\n")
-        f.write(f"\nTotal usernames generated: {len(usernames)}")
-        file_path = os.path.abspath(file_name)
-        print(f"\033[94mFile was saved to: {file_path}\033[0m")
-        print(f"\033[94mTotal usernames generated: {len(usernames)}\033[0m")
-            
     return usernames, file_path
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
 from passwords import generate_passwords
 from usernames import generate_usernames
+from emails import generate_emails
 from image_metadata import metadata_extractor, clear_metadata
 from lookup import search
 import os
@@ -9,16 +10,16 @@ import webbrowser
 
 
 ascii_art_lines = [
-"              ('-. .-.  .-')    ('-. .-.              .-') _  .-') _          ",
-"             ( OO )  / ( OO ). ( OO )  /             ( OO ) )(  OO) )         ",
-" .-'),-----. ,--. ,--.(_)---\_),--. ,--.  ,-.-') ,--./ ,--,' /     '._        ",
-"( OO'  .-.  '|  | |  |/    _ | |  | |  |  |  |OO)|   \ |  |\ |'--...__)       ",
-"/   |  | |  ||   .|  |\  :` `. |   .|  |  |  |  \|    \|  | )'--.  .--'       ",
-"\_) |  |\|  ||       | '..`''.)|       |  |  |(_/|  .     |/    |  |          ",
-"  \ |  | |  ||  .-.  |.-._)   \|  .-.  | ,|  |_.'|  |\    |     |  |          ",
-"   `'  '-'  '|  | |  |\       /|  | |  |(_|  |   |  | \   |     |  |.-..-..-. ",
-"     `-----' `--' `--' `-----' `--' `--'  `--'   `--'  `--'     `--'`-'`-'`-' "
-]
+                "              ('-. .-.  .-')    ('-. .-.              .-') _  .-') _          ",
+                "             ( OO )  / ( OO ). ( OO )  /             ( OO ) )(  OO) )         ",
+                " .-'),-----. ,--. ,--.(_)---\_),--. ,--.  ,-.-') ,--./ ,--,' /     '._        ",
+                "( OO'  .-.  '|  | |  |/    _ | |  | |  |  |  |OO)|   \ |  |\ |'--...__)       ",
+                "/   |  | |  ||   .|  |\  :` `. |   .|  |  |  |  \|    \|  | )'--.  .--'       ",
+                "\_) |  |\|  ||       | '..`''.)|       |  |  |(_/|  .     |/    |  |          ",
+                "  \ |  | |  ||  .-.  |.-._)   \|  .-.  | ,|  |_.'|  |\    |     |  |          ",
+                "   `'  '-'  '|  | |  |\       /|  | |  |(_|  |   |  | \   |     |  |.-..-..-. ",
+                "     `-----' `--' `--' `-----' `--' `--'  `--'   `--'  `--'     `--'`-'`-'`-' "
+                ]
 
 main_help_message = """
 \033[94mAvailable Commands:\033[0m
@@ -144,6 +145,7 @@ for line in ascii_art_lines:
 print(f"\n{main_help_message}\n")
 
 
+
 try:
     while True:
             prompt = input("OhShint! > ")
@@ -159,10 +161,77 @@ try:
                 print(main_help_message)
                 continue
 
+
+            elif prompt[0] == "email":
+                
+                name, last_name, bday, prnt, tlds, domains = None, None, None, False, [], []
+
+                if "-h" in prompt:
+                    print("email_help_message")
+                    continue
+                else:
+                    while True:
+                        name = input("What is the name of the target: ")
+                        if name == "":
+                            print("\033[94mName is not an optional parameter, please enter the targets name\033[0m")
+                        elif not name.isalpha():
+                            print("\033[94mName should only contain letters\033[0m") 
+                        else:   
+                            break
+
+                    while True:
+                        last_name = input("Enter the last name of the target: ")
+                        if last_name == "":
+                            print("\033[94mLast name is not an optional parameter, please enter the targets last name\033[0m")
+                        elif not last_name.isalpha():
+                            print("\033[94mLast name should only contain letters\033[0m")
+                        else:
+                            break
+
+                    while True:
+                        bday = input("Enter the birthday of the target (DDMMYYYY): ")
+                        if bday == "":
+                            print("\033[94mBirthday is not an optional parameter, please enter the targets birthdate.\033[0m")
+                        elif not bday.isdigit():
+                            print("\033[94mBirthday entered contains letters, please enter the birthday in DDMMYYYY format and use only numbers.\033[0m")
+                        elif len(bday) != 8:
+                            print("\033[94mInvalid birthday format, please enter the birthday in DDMMYYYY format.\033[0m")
+                        else:
+                            break
+                    
+                    print("Enter the TLD(s) you would like to check.\nExample input: com\nHint: Empty input to end. If you don't enter any TLDs the script will use a preset list.")
+                    while True:
+                        tld = input("TLD to check:")
+                        if tld:
+                            tlds.append(tld)
+                        else:
+                            print("\n")
+                            break
+
+                    print("Enter the domain(s) you would like to check.\nExample input: gmail\nHint: Empty input to end. If you dont enter any domains the script will use a preset list.")
+                    while True:
+                        domain = input("Domain to check:")
+                        if domain:
+                            domains.append(domain) 
+                        else:
+                            print("\n")
+                            break
+
+
+                    file_name = input("Enter the name you want the file to be saved as (optional): ")
+                    if file_name == "":
+                        file_name = f"{name}_{last_name}_emails.txt"
+                        print(f"\033[94mFile name was automatically set to: {name}_{last_name}_emails.txt\033[0m")
+                    else:
+                        file_name = file_name + ".txt"
+
+                    temp_emails, email_file_path = generate_emails(first_name=name, last_name=last_name, bday=bday, tld=tlds, domain = domains,  file_name=file_name, prnt=prnt)
+                    emails = {index: email for index, email in enumerate(temp_emails)}
+
+
             elif prompt[0] == "user":
 
-
-                name, last_name, bday, prnt, save = None, None, None, False, False
+                name, last_name, bday, prnt = None, None, None, False
                 
                 if "-h" in prompt:
                     print(user_help_message)
@@ -309,14 +378,23 @@ try:
                     print(show_help_message)
                     continue
                 if "usernames" in prompt:
-                    if "usernames" in prompt:
+                    if usernames:
                         for k, v in usernames.items():
                             print(f"{k}: {v}")
-                        if username_file_path != "":
+                        if username_file_path:
                             print(f"\033[94mUsername list was stored at:\n {username_file_path}\033[0m")
                         continue
                     else:
                         print("\033[94mPlease generate a username list first.\033[0m")
+                        continue
+                elif "emails" in prompt:
+                    if emails:
+                        for k, v in emails.items():
+                            print(f"{k}: {v}")
+                        if email_file_path:
+                            print(f"\033[94mEmail list was stored at:\n {email_file_path}\033[0m")
+                    else:
+                        print("\033[94mPlease generate an email list first.\033[0m")
                         continue
                 elif "lookup" in prompt:
                     if lookup_results:
