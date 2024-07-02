@@ -1,24 +1,32 @@
-from passwords import generate_passwords
-from usernames import generate_usernames
-from emails import generate_emails
-from image_metadata import metadata_extractor, clear_metadata
-from lookup import search
+# General imports
 import os
 import sys
 import time
 import webbrowser
+import re
+import ipaddress
+
+# Homemade module imports
+from passwords import generate_passwords
+from usernames import generate_usernames
+from emails import generate_emails
+from image_metadata import metadata_extractor, clear_metadata
+from ip_geolocation import url2ip
+from ip_geolocation import ip_details
+from lookup import search
+
 
 
 ascii_art_lines = [
-                "              ('-. .-.  .-')    ('-. .-.              .-') _  .-') _          ",
-                "             ( OO )  / ( OO ). ( OO )  /             ( OO ) )(  OO) )         ",
-                " .-'),-----. ,--. ,--.(_)---\_),--. ,--.  ,-.-') ,--./ ,--,' /     '._        ",
-                "( OO'  .-.  '|  | |  |/    _ | |  | |  |  |  |OO)|   \ |  |\ |'--...__)       ",
-                "/   |  | |  ||   .|  |\  :` `. |   .|  |  |  |  \|    \|  | )'--.  .--'       ",
-                "\_) |  |\|  ||       | '..`''.)|       |  |  |(_/|  .     |/    |  |          ",
-                "  \ |  | |  ||  .-.  |.-._)   \|  .-.  | ,|  |_.'|  |\    |     |  |          ",
-                "   `'  '-'  '|  | |  |\       /|  | |  |(_|  |   |  | \   |     |  |.-..-..-. ",
-                "     `-----' `--' `--' `-----' `--' `--'  `--'   `--'  `--'     `--'`-'`-'`-' "
+                r"              ('-. .-.  .-')    ('-. .-.              .-') _  .-') _          ",
+                r"             ( OO )  / ( OO ). ( OO )  /             ( OO ) )(  OO) )         ",
+                r" .-'),-----. ,--. ,--.(_)---\_),--. ,--.  ,-.-') ,--./ ,--,' /     '._        ",
+                r"( OO'  .-.  '|  | |  |/    _ | |  | |  |  |  |OO)|   \ |  |\ |'--...__)       ",
+                r"/   |  | |  ||   .|  |\  :` `. |   .|  |  |  |  \|    \|  | )'--.  .--'       ",
+                r"\_) |  |\|  ||       | '..`''.)|       |  |  |(_/|  .     |/    |  |          ",
+                r"  \ |  | |  ||  .-.  |.-._)   \|  .-.  | ,|  |_.'|  |\    |     |  |          ",
+                r"   `'  '-'  '|  | |  |\       /|  | |  |(_|  |   |  | \   |     |  |.-..-..-. ",
+                r"     `-----' `--' `--' `-----' `--' `--'  `--'   `--'  `--'     `--'`-'`-'`-' "
                 ]
 
 main_help_message = """
@@ -27,11 +35,62 @@ main_help_message = """
 \033[94m2. pass\t\t- Generate a list of potential passwords\033[0m
 \033[94m3. lookup\t- Search for a username on different social media sites\033[0m
 \033[94m4. mtdata\t- Extract and clear metadata from images\033[0m
-\033[94m5. show\t\t- Display generated usernames, lookup results, or password list storage path\033[0m
-\033[94m5. visit\t\t- Open the webpage of a found url in a lookup\033[0m
-\033[94m6. help\t\t- Display this help message\033[0m
-\033[94m7. exit\t\t- Exit the program\033[0m
+\033[94m5. email\t- Generate a list of potential emails\033[0m
+\033[94m6. ip\t\t- Get details about an IP address\033[0m
+\033[94m7. url\t\t- Get IP details from a given URL\033[0m
+\033[94m8. visit\t- Open the webpage of a found URL in a lookup\033[0m
+\033[94m9. show\t\t- Display generated usernames, lookup results, or password list storage path\033[0m
+\033[94m10. help\t\t- Display this help message\033[0m
+\033[94m11. exit\t\t- Exit the program\033[0m
 \033[94mFor more information on a command use: [COMMAND] -h\033[0m
+"""
+
+email_help_message = """
+\033[94mEmail generator - Generates potential emails\033[0m
+
+Usage:
+    email
+    
+Options:
+    -h             Show this help message
+
+How to use: 
+Just run the command and follow the steps!
+"""
+
+ip_help_message = """
+\033[94mIP details - Get details about an IP address\033[0m
+
+Usage:
+    ip <ip_address>
+
+Options:
+    -h             Show this help message
+
+Examples:
+    ip 192.168.0.1
+
+Notes:
+    Provides details such as geolocation and ISP information about the specified IP address.
+"""
+
+
+
+url_help_message = """
+\033[94mURL to IP - Get IP details from a given URL\033[0m
+
+Usage:
+    url <url> [options]
+
+Options:
+    -h             Show this help message
+    -f             In the case of reaching an API limit use this flag to atleast get the URL IP address
+
+Examples:
+    url http://example.com
+
+Notes:
+    Converts the provided URL to an IP address and retrieves details about it.
 """
 
 
@@ -113,20 +172,25 @@ Notes:
 """
 
 show_help_message = """
-\033[94mShow - Displays generated usernames, lookup results, or password list storage path\033[0m
+\033[94mShow - Displays generated data or storage paths\033[0m
 
 Usage:
-    show [options]
+    show [option]
 
 Options:
     -h             Show this help message
-    usernames      Display the generated usernames
-    lookup         Display the results of the lookup
+    usernames      Display the generated usernames and storage path
+    emails         Display the generated emails and storage path
+    lookup         Display the results of the last lookup performed
     passwords      Display the path to the stored password list
+    ip             Display details about the last IP lookup performed
+    url            Display details about the last URL lookup performed
 
 Notes:
-    Before using this command, ensure you have generated usernames, performed a lookup, or generated a password list.
+    Before using some options, ensure you have generated usernames, emails, or performed lookups.
+    Use 'show [option]' to view specific information based on your command.
 """
+
 
 # A function used for openning links found in lookups
 def open_website(url):
@@ -135,6 +199,8 @@ def open_website(url):
 
 username_file_path = ""
 pass_file_path = ""
+url_ip_details = ""
+ip_add_details = ""
 lookup_results = {}
 
 
@@ -160,14 +226,68 @@ try:
             elif prompt[0] == "help":
                 print(main_help_message)
                 continue
+            
+            elif prompt[0] == "url":
+                if "-h" in prompt:
+                    print(url_help_message)
+                    continue
+                else:
+                    try:
+                        url = prompt[1]
+                        regex = r'^(?!:\/\/)([a-zA-Z0-9-_]+(\.[a-zA-Z0-9-_]+)+\.?[a-zA-Z0-9-_]*$)'
+                        assert re.match(regex, url), f"Please enter a invalid URL format: {url}"
+                    except IndexError:
+                        print("Please specify a URL")
+                    except AssertionError as e:
+                        print(e)
+                    except Exception as e:
+                        print(e)
+                    else:
+                        url_ip = url2ip(url)
+                        if "-f" in prompt:
+                            print(url_ip)
+                        url_ip_details = f"Details for: {url}\n" + ip_details(ip=url_ip)
+                        print(url_ip_details)
+                    finally:
+                        continue
+                    
+            elif prompt[0] == "ip":
+                if "-h" in prompt:
+                    print(ip_help_message)
+                    continue
+                else:
+                    try:
+                        ip = prompt[1]
+                        if not ip:
+                            raise IndexError("Please specify an IPv4 or IPv6 address.")
 
+                        try:
+                            ip_obj = ipaddress.ip_address(ip)
+                            if not isinstance(ip_obj, ipaddress.IPv4Address) or isinstance(ip_obj, ipaddress.IPv6Address):
+                                raise AssertionError(f"{ip} is neither a valid IPv4 nor IPv6 address.")
+                        
+                        except ValueError:
+                            print(f"{ip} is not a valid IPv4 or IPv6 address.")
+
+                    except IndexError:
+                        print("Please specify an ipv4/ipv6 address")
+                    except AssertionError as e:
+                        print(e)
+                    except Exception as e:
+                        print(e)
+                    else:
+                        ip_add_details = ip_details(ip=ip)
+                        print(ip_add_details)
+                    finally:
+                        continue
+                    
 
             elif prompt[0] == "email":
                 
                 name, last_name, bday, prnt, tlds, domains = None, None, None, False, [], []
 
                 if "-h" in prompt:
-                    print("email_help_message")
+                    print(email_help_message)
                     continue
                 else:
                     while True:
@@ -409,6 +529,20 @@ try:
                         print(f"\033[94mPassword list was stored at:\n {pass_file_path}\033[0m")
                     else:
                         print("\033[94mPlease generate a password list first\033[0m")
+                elif "ip" in prompt:
+                    if ip_add_details:
+                        print(ip_add_details)
+                        continue
+                    else:
+                        print("\033[94mPlease complete an IP lookup first.\033[0m")
+                        continue
+                elif "url" in prompt:
+                    if url_ip_details:
+                        print(url_ip_details)
+                        continue
+                    else:
+                        print("\033[94mPlease complete a URL lookup first.\033[0m")
+                        continue
             
             elif prompt[0] == "lookup":
                 if "-h" in prompt:
