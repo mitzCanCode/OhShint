@@ -16,7 +16,7 @@ from ip_geolocation import ip_details
 from lookup import search
 
 
-
+# Ascii art
 ascii_art_lines = [
                 r"              ('-. .-.  .-')    ('-. .-.              .-') _  .-') _          ",
                 r"             ( OO )  / ( OO ). ( OO )  /             ( OO ) )(  OO) )         ",
@@ -29,12 +29,14 @@ ascii_art_lines = [
                 r"     `-----' `--' `--' `-----' `--' `--'  `--'   `--'  `--'     `--'`-'`-'`-' "
                 ]
 
+# Help messages
+
 main_help_message = """
 \033[94mAvailable Commands:\033[0m
 \033[94m1. user\t\t- Generate a list of potential usernames\033[0m
 \033[94m2. pass\t\t- Generate a list of potential passwords\033[0m
 \033[94m3. lookup\t- Search for a username on different social media sites\033[0m
-\033[94m4. mtdata\t- Extract and clear metadata from images\033[0m
+\033[94m4. mtdata\t- Extract or clear metadata from an image\033[0m
 \033[94m5. email\t- Generate a list of potential emails\033[0m
 \033[94m6. ip\t\t- Get details about an IP address\033[0m
 \033[94m7. url\t\t- Get IP details from a given URL\033[0m
@@ -196,7 +198,7 @@ Notes:
 def open_website(url):
     webbrowser.open(url)
 
-
+# Variable initialization
 username_file_path = ""
 pass_file_path = ""
 url_ip_details = ""
@@ -204,14 +206,14 @@ ip_add_details = ""
 lookup_results = {}
 
 
-
+# Ascii art logo
 for line in ascii_art_lines:
     print(f"\033[94m{line}\033[0m")
     time.sleep(0.07)
 print(f"\n{main_help_message}\n")
 
 
-
+# Main Code
 try:
     while True:
             prompt = input("OhShint! > ")
