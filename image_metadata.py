@@ -1,12 +1,15 @@
 import os
-from PIL import Image, ExifTags
+from PIL import Image, ExifTags, UnidentifiedImageError
 import piexif
 
 def metadata_extractor(file_path: str, check=False) -> dict:
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"The file {file_path} does not exist.")
     
-    img = Image.open(file_path)
+    try:
+        img = Image.open(file_path)
+    except UnidentifiedImageError:
+        raise UnidentifiedImageError("Error: Cannot identify image file '{file_path}'/ file type is not supported.")
     exif = img._getexif()
     
     if not exif and not check:
@@ -20,7 +23,11 @@ def clear_metadata(file_path: str, output_path: str):
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"The file {file_path} does not exist.")
     
-    img = Image.open(file_path)
+    try:
+        img = Image.open(file_path)
+    except UnidentifiedImageError:
+        raise UnidentifiedImageError("Error: Cannot identify image file '{file_path}'/ file type is not supported.")
+    
     exif_data = img.info.get('exif')
     
     if not exif_data:
