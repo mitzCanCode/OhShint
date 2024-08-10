@@ -13,7 +13,7 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 - **user**: Generate a list of possible usernames.
 - **pass**: Generate a list of possible passwords.
 - **lookup**: Search for a username on different social media sites.
-- - **mtdata**: Extract or clear metadata from an image.
+- **mtdata**: Extract or clear metadata from an image.
 - **email**: Generate a list of potential emails.
 - **ip**: Get details about an IP address.
 - **url**: Get IP details from a given URL.
