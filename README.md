@@ -4,27 +4,30 @@ Welcome to **OhShint**, a tool designed to aid in OSINT (Open Source Intelligenc
 
 ## Project Details
 
-This project is hosted on GitHub. For more details, please visit the [OhShint GitHub repository](https://github.com/dxmxtrxs/OhShint).
+This project is hosted on GitHub. For more details, please visit the [OhShint GitHub repository](https://github.com/mitzCanCode/OhShint).
 
 Contributions, issues, and feature requests are welcome! Feel free to check the repository for the latest updates and to participate in the development.
 
 ## Available Commands
 
-- **mtdata**: Extract or clear metadata from an image.
 - **user**: Generate a list of possible usernames.
 - **pass**: Generate a list of possible passwords.
 - **lookup**: Search for a username on different social media sites.
-- **show**: Display generated usernames, lookup results, or password list storage path.
+- - **mtdata**: Extract or clear metadata from an image.
+- **email**: Generate a list of potential emails.
+- **ip**: Get details about an IP address.
+- **url**: Get IP details from a given URL.
 - **visit**: Open the webpage of a found URL in a lookup.
+- **show**: Display generated usernames, lookup results, or password list storage path.
 - **help**: Display help information about commands or general usage.
 - **exit**: Exit the program.
 
 ## Setup
 
 1. **Step 1:**
-    - Download the latest version of OhShint from the [OhShint GitHub repository](https://github.com/dxmxtrxs/OhShint).
+    - Download the latest version of OhShint from the [OhShint GitHub repository](https://github.com/mitzCanCode/OhShint).
     ```bash
-    git clone https://github.com/dxmxtrxs/OhShint.git
+    git clone https://github.com/mitzCanCode/OhShint.git
     ```
 
 2. **Step 2:**
@@ -36,7 +39,7 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 3. **Step 3:**
     - Install the requirements.
     ```bash
-    pip3 install piexif requests Pillow
+    pip3 install piexif requests Pillow ip2geotools geopy requests
     ```
 
 ## How to Use
